@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+    <div class="container">
+      <a class="navbar-brand" href="#">注文</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="input.html">注文入力</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="list.html">注文履歴</a>
+          </li>
+        </ul>
+        <p class="navbar-text my-1">ようこそ 永和太郎 さん。</p>
+        <a class="btn btn-primary" href="login.html">ログアウト</a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="">ぐるめし注文履歴</h1>
+        </div>
+        <div class="col-md-8">
+          <p class="lead">2017/10/16～2017/10/20までの注文状態です。</p>
+        </div>
+        <div class="col-md-4">
+          <a class="btn btn-primary" href="" data-target="#lunchmenu" data-toggle="modal">注文を締める</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a href="#mon" class="nav-link active" data-toggle="tab"> 10/16(月）</a>
+            </li>
+            <li class="nav-item">
+              <a href="#tue" class="nav-link" data-toggle="tab"> 10/17(火）</a>
+            </li>
+            <li class="nav-item">
+              <a href="#wed" class="nav-link" data-toggle="tab"> 10/18(水）</a>
+            </li>
+            <li class="nav-item">
+              <a href="#thu" class="nav-link" data-toggle="tab"> 10/19(木）</a>
+            </li>
+            <li class="nav-item">
+              <a href="#fri" class="nav-link" data-toggle="tab"> 10/20(金）</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="mon">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title m-2">和風</h3>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr class="bg-secondary text-white">
+                        <th>氏名</th>
+                        <th>ごはん</th>
+                        <th>味噌汁</th>
+                        <th>金額</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>リラックマ</td>
+                        <td>なし</td>
+                        <td>つける</td>
+                        <td>308円</td>
+                      </tr>
+                      <tr>
+                        <td>キイロイトリ</td>
+                        <td>白米</td>
+                        <td>つける</td>
+                        <td>411円</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="panel-footer text-right">おかず：2個、ごはん1個</div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title m-2">愛</h3>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr class="bg-secondary text-white">
+                        <th>氏名</th>
+                        <th>ごはん</th>
+                        <th>味噌汁</th>
+                        <th>金額</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>永和　花子</td>
+                        <td>なし</td>
+                        <td>つける</td>
+                        <td>308円</td>
+                      </tr>
+                      <tr>
+                        <td>マイク</td>
+                        <td>白米</td>
+                        <td>つける</td>
+                        <td>411円</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="panel-footer text-right">おかず：2個、ごはん1個</div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title m-2">ゆうき</h3>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr class="bg-secondary text-white">
+                        <th>氏名</th>
+                        <th>ごはん</th>
+                        <th>味噌汁</th>
+                        <th>金額</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>永和　タロウ</td>
+                        <td>なし</td>
+                        <td>つける</td>
+                        <td>360円</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="panel-footer text-right">おかず：1個、ごはん0個</div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title m-2">応援</h3>
+                  <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr class="bg-secondary text-white">
+                        <th>氏名</th>
+                        <th>ごはん</th>
+                        <th>味噌汁</th>
+                        <th>金額</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>永和　ジロー</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>360円</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="panel-footer text-right">お弁当：1個</div>
+              </div>
+            </div>
+            <div id="tue" class="tab-pane">
+              <div class="py-3">
+                <h5>注文はありません。</h5>
+              </div>
+            </div>
+            <div id="wed" class="tab-pane">
+              <div class="py-3">
+                <h5>注文はありません。</h5>
+              </div>
+            </div>
+            <div id="thu" class="tab-pane">
+              <div class="py-3">
+                <h5>注文はありません。</h5>
+              </div>
+            </div>
+            <div id="fri" class="tab-pane">
+              <div class="py-3">
+                <h5>注文はありません。</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -8,21 +8,21 @@
   <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"> </head>
 
 <body>
-  <nav class="navbar navbar-expand-md bg-secondary navbar-dark">
+  <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
     <div class="container">
       <a class="navbar-brand" href="#">注文</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">注文入力</a>
+            <a class="nav-link" href="input.html">注文入力</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">注文履歴</a>
+            <a class="nav-link" href="list.html">注文履歴</a>
           </li>
         </ul>
         <p class="navbar-text my-1">ようこそ 永和太郎 さん。</p>
-        <button type="button" class="btn btn-primary navbar-btn">ログアウト</button>
+        <a class="btn btn-primary" href="login.html">ログアウト</a>
       </div>
     </div>
   </nav>
@@ -36,7 +36,7 @@
           <p class="lead">ただいま、2017/10/16～2017/10/20までの注文受付中です。</p>
         </div>
         <div class="col-md-4">
-          <a class="btn btn-primary" href="" data-target="#lunchmenu" data-toggle="modal">ランチメニュー</a>
+          <a class="btn btn-primary" href="" data-target="#lunchmenu" data-toggle="modal">ランチメニュー表示</a>
         </div>
       </div>
     </div>
@@ -244,14 +244,14 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-md-6"> </div>
+          <div class="col-md-2">合計 9,999円</div>
           <div class="col-md-2">
-            <a class="btn btn-primary" href="">今週はいりません </a>
+            <a class="btn btn-primary" href="">この週はいりません </a>
           </div>
           <div class="col-md-2">
             <a class="btn btn-primary" href="">注文する</a>
           </div>
-          <div class="col-md-2">合計 9,999円</div>
-          <div class="col-md-6"> </div>
         </div>
       </form>
     </div>
