@@ -5,6 +5,21 @@
 
 - [Cloud SDK](https://cloud.google.com/sdk/?hl=ja)
 - [Java8](http://www.oracle.com/technetwork/java/javase/overview/index.html)
+- Google Cloud SDK Java Extensions
+
+  ```sh
+  gcloud components install app-engine-java`
+  ```
+  を実行する。
+
+## バックエンド
+
+- Spring Boot
+
+## フロントエンド
+
+- Vue.js
+  - `<script src="https://unpkg.com/vue"></script>`
 
 ## ビルド
 
