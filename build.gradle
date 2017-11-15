@@ -25,6 +25,7 @@ targetCompatibility = 1.8
 
 ext {
   vueDir = "${project.projectDir}/vue"
+  vueDistDir = "${vueDir}/dist"
 }
 
 repositories {
@@ -52,12 +53,18 @@ node {
 
 // vueでnpm run build
 task vue(type: NpmTask, dependsOn: npmInstall) {
+  inputs.dir file("${vueDir}/src")
+  inputs.dir file("${vueDir}/config")
+  inputs.dir file("${vueDir}/build")
+  inputs.file file("${vueDir}/package.json")
+  outputs.dir file(vueDistDir)
+
   args = ['run', 'build']
 }
 classes.dependsOn vue
 
 war {
-  from "${vueDir}/dist"
+  from vueDistDir
 }
 
 bootRepackage {
