@@ -1,20 +1,20 @@
 buildscript {
-  ext {
-    springBootVersion = '1.5.7.RELEASE'
-  }
   repositories {
     mavenCentral()
   }
   dependencies {
-    classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
     classpath "com.google.cloud.tools:appengine-gradle-plugin:+"
   }
+}
+
+plugins {
+  id 'org.springframework.boot' version '1.5.7.RELEASE'
+  id 'com.moowork.node' version '1.2.0'
 }
 
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'com.google.cloud.tools.appengine'
 
 group = 'jp.co.esm.bento'
@@ -22,6 +22,11 @@ version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+ext {
+  vueDir = "${project.projectDir}/vue"
+  vueDistDir = "${vueDir}/dist"
+}
 
 repositories {
   mavenCentral()
@@ -39,6 +44,27 @@ dependencies {
   compileOnly 'org.projectlombok:lombok'
   compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
   testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+node {
+  workDir = file(vueDir)
+  nodeModulesDir = file(vueDir)
+}
+
+// vueでnpm run build
+task vue(type: NpmTask, dependsOn: npmInstall) {
+  inputs.dir file("${vueDir}/src")
+  inputs.dir file("${vueDir}/config")
+  inputs.dir file("${vueDir}/build")
+  inputs.file file("${vueDir}/package.json")
+  outputs.dir file(vueDistDir)
+
+  args = ['run', 'build']
+}
+classes.dependsOn vue
+
+war {
+  from vueDistDir
 }
 
 bootRepackage {

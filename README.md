@@ -21,6 +21,13 @@
 - Vue.js
   - `<script src="https://unpkg.com/vue"></script>`
 
+フロント側の実行
+```sh
+cd vue
+npm i
+npm run dev
+```
+
 ## ビルド
 
 ```sh
@@ -32,4 +39,4 @@
 ```sh
 ./gradlew appengineRun
 ```
-を実行して http://localhost:8080/sample をブラウザで開く。
+を実行して http://localhost:8080/ をブラウザで開く。
