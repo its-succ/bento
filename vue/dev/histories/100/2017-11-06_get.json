@@ -1,0 +1,7 @@
+{
+  "orders": [
+    { "date": "2017-11-06", "main": "愛", "rice": "ふつう", "soup": true, "price": 300 },
+    { "date": "2017-11-07", "main": "愛", "rice": "ふつう", "soup": true, "price": 300 },
+    { "date": "2017-11-10", "main": "ゆうき", "rice": "ふつう", "soup": true, "price": 360 }
+  ]
+}
