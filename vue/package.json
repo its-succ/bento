@@ -8,7 +8,8 @@
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
     "lint": "eslint --ext .js,.vue src",
-    "mock": "cd dev && easymock"
+    "mock": "cd dev && easymock",
+    "dev-mock": "run-p dev mock"
   },
   "dependencies": {
     "babel-runtime": "^6.25.0",
