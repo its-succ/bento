@@ -25,7 +25,7 @@
 ```sh
 cd vue
 npm i
-npm run dev
+run-p dev mock
 ```
 
 ## ビルド
