@@ -28,7 +28,7 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', redirect: '/history' },
-    { path: '/history', component: History }
+    { path: '/', redirect: '/history/100' },
+    { path: '/history/:user_id', component: History, props: true }
   ]
 })

@@ -1,5 +1,6 @@
 <template>
   <div class="history">
+    <p class="caption">{{user_name}} さんの注文</p>
     <table class="q-table bordered vertical-separator striped-odd">
       <caption class="text-left">{{week}} 〜
       </caption>
@@ -27,16 +28,39 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'history',
+  props: {
+    user_id: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
-      week: '2017-11-01',
+      user_name: 'さかい',
+      week: '2017-11-06',
       orders: [
         { date: '11/1', dow: '月', main: '愛', rice: 'ふつう', soup: true, price: 300 },
         { date: '11/2', dow: '火', main: 'ゆうき', rice: 'ふつう', soup: true, price: 360 }
       ]
     }
+  },
+  methods: {
+    async getOrders (userId, week) {
+      try {
+        const response = await axios.get(`api/histories/${userId}/${week}`)
+        this.orders = response.data.orders
+      }
+      catch (error) {
+        console.error(error)
+      }
+    }
+  },
+  mounted () {
+    this.getOrders(this.user_id, this.week)
   }
 }
 </script>
