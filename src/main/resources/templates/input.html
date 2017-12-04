@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css"/>
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css"/>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+    <div class="container">
+      <a class="navbar-brand" href="#">注文</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="input.html">注文入力</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="list.html">注文履歴（管理部）</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="list_p.html">注文履歴（個人）</a>
+          </li>
+        </ul>
+        <p class="navbar-text my-1">ようこそ 永和太郎 さん。</p>
+        <a class="btn btn-primary" href="login.html">ログアウト</a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="">ぐるめし注文入力</h1>
+        </div>
+        <div class="col-md-8">
+          <p class="lead">ただいま、2017/10/16～2017/10/20までの注文受付中です。</p>
+        </div>
+        <div class="col-md-4">
+          <a class="btn btn-primary" href="" data-target="#lunchmenu" data-toggle="modal">ランチメニュー表示</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <form>
+        <div class="row">
+          <div id="orders" class="col-md-12">
+            <table class="table table-bordered table-striped table-sm table-hover table-reflow">
+              <thead class="bg-primary text-white text-center">
+                <tr>
+                  <th>日付</th>
+                  <th>おかず</th>
+                  <th>ごはん</th>
+                  <th>味噌汁</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="order in orders">
+                  <td>{{ order.orderDate }}（{{ GetDayOfWeek(order.orderDate) }}）</td>
+                  <td>
+                    <div class="btn-group">
+								      <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> {{ GetOkazuLabel(order.okazu) }} </button>
+								      <div id="okazu" class="dropdown-menu" >
+								      	<div v-for="(item, index) in okazu_items">
+									        <a class="dropdown-item" href="#">{{ item.label }}({{ item.price }}円)</a>
+									        <div class="dropdown-divider" v-if="index != (okazu_items.length - 1)"></div>
+								        </div>
+								      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> {{ GetGohanLabel(order.gohan) }} </button>
+								      <div class="dropdown-menu" >
+								      	<div v-for="(item, index) in gohan_items">
+									        <a class="dropdown-item" href="#">{{ item.label }}({{ item.price }}円)</a>
+									        <div class="dropdown-divider" v-if="index != (gohan_items.length - 1)"></div>
+								        </div>
+								      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="btn-group">
+                      <button class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown"> {{ GetMisoLabel(order.misosoup) }} </button>
+								      <div class="dropdown-menu" >
+								      	<div v-for="(required, index) in miso_required">
+									        <a class="dropdown-item" href="#">{{ required.label }}</a>
+									        <div class="dropdown-divider" v-if="index != (miso_required.length - 1)"></div>
+								        </div>
+								      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6"> </div>
+          <div class="col-md-2">合計 9,999円</div>
+          <div class="col-md-2">
+            <a class="btn btn-primary" href="">この週はいりません </a>
+          </div>
+          <div class="col-md-2">
+            <a class="btn btn-primary" href="">注文する</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal fade" id="lunchmenu">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ぐるめしメニュー</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        </div>
+        <div class="modal-body">
+          <img class="img-fluid d-block" src="menu_20171009.png"/> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue"></script>
+
+  <script>
+  // とりあえずデータはベタ書き  
+  new Vue({
+	  el: '#orders',
+	  data: {
+		  orders: [
+			  { orderDate: '2017/10/16', okazu : 'wafuu', gohan: '', misosoup: 'true' },
+			  { orderDate: '2017/10/17', okazu : '', gohan: '', misosoup: 'false' },
+			  { orderDate: '2017/10/18', okazu : 'ai', gohan: 'hakumai', misosoup: 'false' },
+			  { orderDate: '2017/10/19', okazu : 'yuuki', gohan: '', misosoup: 'false' },
+			  { orderDate: '2017/10/20', okazu : '', gohan: '', misosoup: 'false' }
+		  ],
+      okazu_items: [ 
+        { label: '和風', price: '308', value: 'wafuu'}, 
+        { label: '愛', price: '308', value: 'ai'}, 
+        { label: 'ゆうき', price: '360', value: 'yuuki'}, 
+      ],
+    　　　　gohan_items: [
+        { label: '白米', price: '154', value: 'hakumai'},
+        { label: '日替わり健康米', price: '185', value: 'higawari'},
+        { label: '炊き込みご飯', price: '103', value: 'takikomi'},
+      ],
+      miso_required: [
+    		{ label: 'ほしい', value: 'true'},
+    		{ label: 'いりません', value: 'false'},
+    	]
+	  },
+	  methods: {
+		  // 指定の日付の曜日を返します。
+		  GetDayOfWeek: function(hiduke) {
+		    var date = new Date(hiduke);
+		    var dayOfWeek = date.getDay();
+		    return [ '日', '月', '火', '水', '木', '金', '土' ][dayOfWeek];
+		  },
+		  // 指定のおかずの名称を返します。
+		  GetOkazuLabel: function (value) {
+			  var items = $.grep(this.okazu_items,
+											    function(elem, index) {
+											      return (elem.value === value);
+		                      });
+			  return items.length == 0 ?  'なし': items[0].label;
+		  },
+		  // 指定のごはんの名称を返します。
+      GetGohanLabel: function (value) {
+        var items = $.grep(this.gohan_items,
+                          function(elem, index) {
+                            return (elem.value === value);
+                          });
+        return items.length == 0 ?  'なし': items[0].label;
+      },
+      // 指定の味噌汁有無を名称で返します。
+      GetMisoLabel: function (value) {
+        var items = $.grep(this.miso_required,
+                          function(elem, index) {
+                            return (elem.value === value);
+                          });
+        return items.length == 0 ?  'いりません': items[0].label;
+      },
+	  }
+  })
+  </script>
+</body>
+
+</html>
