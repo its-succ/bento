@@ -32,6 +32,11 @@ repositories {
   mavenCentral()
 }
 
+appengine {
+  deploy {
+    project 'bento-184202'
+  }
+}
 configurations {
   compile.exclude module: 'jul-to-slf4j'
 }
