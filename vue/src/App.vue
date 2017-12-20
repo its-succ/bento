@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <q-layout>
@@ -15,25 +15,8 @@
 </template>
 
 <script>
-/*
- * Root component
- */
-import {
-  QLayout,
-  QToolbar,
-  QToolbarTitle,
-  QTabs,
-  QRouteTab
-} from 'quasar'
 
 export default {
-  components: {
-    QLayout,
-    QToolbar,
-    QToolbarTitle,
-    QTabs,
-    QRouteTab
-  }
 }
 </script>
 
