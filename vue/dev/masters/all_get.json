@@ -1,0 +1,16 @@
+{
+  "okazu": [
+    { "label": "和風", "value": "wafuu" },
+    { "label": "愛",  "value": "ai" },
+    { "label": "ゆうき", "value": "yuuki" }
+  ],
+  "gohan": [
+    { "label": "白米", "value": "hakumai" },
+    { "label": "日替わり健康米", "value": "higawari" },
+    { "label": "炊き込みご飯", "value": "takikomi" }
+  ],
+  "soup": [
+    { "label": "ほしい", "value": true },
+    { "label": "いりません", "value": false }
+  ]
+}

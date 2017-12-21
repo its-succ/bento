@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="order">
-    <p class="caption">ただいま、{{ orders[0].date }}～{{ orders[4].date }}までの注文受付中です。</p>
-    <p class="caption">{{ user_name }} さんの注文</p>
+    <p class="caption">ただいま、{{ orders[0].date }}～{{ orders[4].date }}までの注文受付中です。<br/>
+    {{ user_name }} さんの注文</p>
     <table class="q-table bordered vertical-separator striped-odd">
       <thead class="bg-primary text-white">
         <tr>
@@ -13,29 +13,32 @@
       </thead>
       <tbody>
         <tr 
-          v-for="order in orders" 
+          v-for="(order,index) in orders" 
           :key="order.date">
           <td>{{ order.date }}</td>
           <td>{{ order.dow }}</td>
           <td>
             <q-select
-              v-model="select"
-              :options="okazu_items"
-              :display-value="`${ order.okazuName }`"
+              v-model="okazu[index]"
+              inverted
+              color="amber"
+              separator
+              :options="okazu_options"
+              :select="order.okazu"
             />
           </td>
           <td>
             <q-select
-              v-model="select"
-              :options="gohan_items"
-              :display-value="`${ order.gohanName }`"
+              v-model="gohan[index]"
+              separator
+              :options="gohan_options"
             />
           </td>
           <td>
             <q-select
-              v-model="select"
+              v-model="soup[index]"
+              separator
               :options="soup_options"
-              :display-value="`${ order.soupName }`"
             />
           </td>
         </tr>
@@ -67,34 +70,47 @@ export default {
     return {
       user_name: 'さかい',
       week: '2017-10-16',
-      orders: [
-        { date: '2017-10-16', dow: '月' },
-        { date: '2017-10-17', dow: '火' },
-        { date: '2017-10-18', dow: '水' },
-        { date: '2017-10-19', dow: '木' },
-        { date: '2017-10-20', dow: '金' }
-      ],
-      okazu_items: [
-        { label: '和風', value: 'wafuu' },
-        { label: '愛', value: 'ai' },
-        { label: 'ゆうき', value: 'yuuki' }
-      ],
-      gohan_items: [
-        { label: '白米', value: 'hakumai' },
-        { label: '日替わり健康米', value: 'higawari' },
-        { label: '炊き込みご飯', value: 'takikomi' }
-      ],
-      soup_options: [
-        { label: 'ほしい', value: true },
-        { label: 'いりません', value: false }
-      ]
+      orders: [],
+      okazu: [],
+      okazu_options: [],
+      gohan: [],
+      gohan_options: [],
+      soup: [],
+      soup_options: []
     }
   },
   methods: {
     async getOrders (userId, week) {
       try {
+        // 登録済みの注文を取得する
         const response = await axios.get(`api/orders/${userId}/${week}`)
         this.orders = response.data.orders
+        // 登録済みの注文の内容で初期値表示する
+        this.okazu = []
+        this.gohan = []
+        this.soup = []
+        for (let key in this.orders) {
+          let order = this.orders[key]
+          this.okazu.push(order.okazu)
+          this.gohan.push(order.gohan)
+          this.soup.push(order.soup)
+        }
+      }
+      catch (error) {
+        console.error(error)
+      }
+    },
+    async getMasters () {
+      try {
+        // マスターを取得する
+        const response = await axios.get(`api/masters/all`)
+        this.okazu_options = response.data.okazu
+        this.gohan_options = response.data.gohan
+        this.soup_options = response.data.soup
+        // おかず、ごはんは未選択状態を追加
+        let unselect = { label: '', value: '' }
+        this.okazu_options.unshift(unselect)
+        this.gohan_options.unshift(unselect)
       }
       catch (error) {
         console.error(error)
@@ -103,6 +119,7 @@ export default {
   },
   mounted () {
     this.getOrders(this.user_id, this.week)
+    this.getMasters()
   }
 }
 </script>
