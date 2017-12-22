@@ -31,6 +31,6 @@ export default new VueRouter({
   routes: [
     { path: '/', redirect: '/history/100' },
     { path: '/history/:user_id', component: History, props: true },
-    { path: '/order', component: Order, props: true }
+    { path: '/order/:user_id', component: Order, props: true }
   ]
 })
