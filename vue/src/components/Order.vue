@@ -13,32 +13,31 @@
       </thead>
       <tbody>
         <tr 
-          v-for="(order,index) in orders" 
+          v-for="order in orders" 
           :key="order.date">
           <td>{{ order.date }}</td>
           <td>{{ order.dow }}</td>
           <td>
             <q-select
-              v-model="okazu[index]"
+              v-model="order.okazu"
               inverted
               color="amber"
               separator
               :options="okazu_options"
-              :select="order.okazu"
             />
           </td>
           <td>
             <q-select
-              v-model="gohan[index]"
+              v-model="order.gohan"
               separator
               :options="gohan_options"
             />
           </td>
           <td>
             <q-select
-              v-model="soup[index]"
+              v-model="order.miso"
               separator
-              :options="soup_options"
+              :options="miso_options"
             />
           </td>
         </tr>
@@ -71,12 +70,9 @@ export default {
       user_name: 'さかい',
       week: '2017-10-16',
       orders: [],
-      okazu: [],
       okazu_options: [],
-      gohan: [],
       gohan_options: [],
-      soup: [],
-      soup_options: []
+      miso_options: []
     }
   },
   methods: {
@@ -85,16 +81,6 @@ export default {
         // 登録済みの注文を取得する
         const response = await axios.get(`api/orders/${userId}/${week}`)
         this.orders = response.data.orders
-        // 登録済みの注文の内容で初期値表示する
-        this.okazu = []
-        this.gohan = []
-        this.soup = []
-        for (let key in this.orders) {
-          let order = this.orders[key]
-          this.okazu.push(order.okazu)
-          this.gohan.push(order.gohan)
-          this.soup.push(order.soup)
-        }
       }
       catch (error) {
         console.error(error)
@@ -106,7 +92,7 @@ export default {
         const response = await axios.get(`api/masters/all`)
         this.okazu_options = response.data.okazu
         this.gohan_options = response.data.gohan
-        this.soup_options = response.data.soup
+        this.miso_options = response.data.miso
         // おかず、ごはんは未選択状態を追加
         let unselect = { label: '', value: '' }
         this.okazu_options.unshift(unselect)

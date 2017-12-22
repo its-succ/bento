@@ -9,7 +9,7 @@
     { "label": "日替わり健康米", "value": "higawari" },
     { "label": "炊き込みご飯", "value": "takikomi" }
   ],
-  "soup": [
+  "miso": [
     { "label": "ほしい", "value": true },
     { "label": "いりません", "value": false }
   ]
