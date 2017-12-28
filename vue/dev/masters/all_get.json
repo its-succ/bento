@@ -1,16 +1,13 @@
 {
   "okazu": [
-    { "label": "和風", "value": "wafuu" },
-    { "label": "愛",  "value": "ai" },
-    { "label": "ゆうき", "value": "yuuki" }
+    { "label": "和風", "value": "wafuu", "price": 360 },
+    { "label": "愛", "value": "ai", "price": 360 },
+    { "label": "ゆうき", "value": "yuuki", "price": 411 },
+    { "label": "応援", "value": "ouen", "price": 360 }
   ],
   "gohan": [
-    { "label": "白米", "value": "hakumai" },
-    { "label": "日替わり健康米", "value": "higawari" },
-    { "label": "炊き込みご飯", "value": "takikomi" }
-  ],
-  "miso": [
-    { "label": "ほしい", "value": true },
-    { "label": "いりません", "value": false }
+    { "label": "白米", "value": "hakumai", "price": 154 },
+    { "label": "日替わり健康米", "value": "higawari", "price": 185 },
+    { "label": "炊き込みご飯 ", "value": "takikomi", "price": 103 }
   ]
 }
