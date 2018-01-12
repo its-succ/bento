@@ -224,7 +224,7 @@ export default {
     /**
      * 支払金額を計算する
      */
-    payment: function (orders) {
+    payment (orders) {
       let result = 0
       Object.values(orders).forEach(order => {
         result += order.total
@@ -234,7 +234,7 @@ export default {
     /**
      * カンマ付円表示する
      */
-    currency: function (price) {
+    currency (price) {
       return price.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + ' 円'
     }
   }
