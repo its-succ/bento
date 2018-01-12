@@ -1,0 +1,9 @@
+{
+  "orders": [
+    { "date": "2017-10-16", "dow": "月", "okazu": "wafuu", "gohan": "", "miso": true },
+    { "date": "2017-10-17", "dow": "火", "okazu": "", "gohan": "", "miso": false  },
+    { "date": "2017-10-18", "dow": "水", "okazu": "ai", "gohan": "hakumai", "miso": false },
+    { "date": "2017-10-19", "dow": "木", "okazu": "yuuki", "gohan": "", "miso": false },
+    { "date": "2017-10-20", "dow": "金", "okazu": "", "gohan": "", "miso": false }
+  ]
+}

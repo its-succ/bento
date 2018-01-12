@@ -1,4 +1,4 @@
-<template>
+<template lang="html">
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <q-layout>
@@ -6,10 +6,10 @@
         <q-toolbar-title class="text-bold">ぐるめし</q-toolbar-title>
       </q-toolbar>
       <q-tabs slot="navigation">
-        <q-route-tab slot="title" replace to="/history" class="text-bold">履歴</q-route-tab>
-        <q-route-tab slot="title" replace to="/order" class="text-bold">注文</q-route-tab>
+        <q-route-tab slot="title" replace :to="{ name: 'history', params: { user_id: user.id }}" class="text-bold">履歴</q-route-tab>
+        <q-route-tab slot="title" replace :to="{ name: 'order', params: { user_id: user.id }}" class="text-bold">注文</q-route-tab>
       </q-tabs>
-      <router-view id="content-view"></router-view>
+      <router-view id="content-view" :user="user"></router-view>
     </q-layout>
   </div>
 </template>
@@ -33,6 +33,14 @@ export default {
     QToolbarTitle,
     QTabs,
     QRouteTab
+  },
+  data () {
+    return {
+      user: {
+        id: 100,
+        name: 'さかい'
+      }
+    }
   }
 }
 </script>
