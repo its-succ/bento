@@ -31,3 +31,6 @@ new Vue({
   router,
   render: h => h(require('./App').default)
 })
+
+import axios from 'axios'
+Vue.prototype.$http = axios

@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import {
   Toast,
   Loading,
@@ -118,7 +117,7 @@ export default {
      */
     async getOrders (userId, week) {
       try {
-        const response = await axios.get(`api/orders/${userId}/${week}`)
+        const response = await this.$http.get(`api/orders/${userId}/${week}`)
         this.orders = response.data.orders
       }
       catch (error) {
@@ -130,7 +129,7 @@ export default {
      */
     async getMasters () {
       try {
-        const response = await axios.get(`api/masters/all`)
+        const response = await this.$http.get(`api/masters/all`)
         Object.keys(response.data).forEach(key => {
           this.options[key] = response.data[key]
           this.options[key].unshift(this.initializedOption)
@@ -172,7 +171,7 @@ export default {
     /**
      * 入力の内容で注文する
      */
-    submitOrder () {
+    async submitOrder () {
       // TODO デモ実装
       Loading.show()
       setTimeout(() => {
@@ -199,7 +198,7 @@ export default {
     /**
      * Welcomeメッセージを取得
      */
-    welcomeMessage: function () {
+    welcomeMessage () {
       if (this.closed) {
         // TODO 締め切っている場合は次の週の受付でもいいような...
         return this.week + 'の週の注文は締め切りました。追加・変更がある場合は直接管理部へ連絡ください。'
@@ -211,7 +210,7 @@ export default {
     /**
      * 指定の注文の金額を計算する
      */
-    total: function (order, items) {
+    total (order, items) {
       let result = 0
       Object.keys(items).forEach(key => {
         let item = items[key].find(item => {
