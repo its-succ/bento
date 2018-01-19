@@ -34,3 +34,9 @@ new Vue({
 
 import axios from 'axios'
 Vue.prototype.$http = axios
+
+/* filters */
+import * as filters from 'filters'
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
