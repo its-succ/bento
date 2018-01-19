@@ -18,7 +18,6 @@
 /*
  * Root component
  */
-import axios from 'axios'
 import {
   QLayout,
   QToolbar,
@@ -39,14 +38,14 @@ export default {
     return {
       user: {
         id: 100,
-        name: 'さかい'
+        name: 'だれか'
       }
     }
   },
   methods: {
     async getUser () {
       try {
-        const user = await axios.get('api/users/current')
+        const user = await this.$http.get('api/users/current')
         this.user.id = user.data.userId
         this.user.name = user.data.nickname
       }

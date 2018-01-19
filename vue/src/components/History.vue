@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   name: 'history',
   props: {
@@ -50,7 +48,7 @@ export default {
   methods: {
     async getOrders (userId, week) {
       try {
-        const response = await axios.get(`api/histories/${userId}/${week}`)
+        const response = await this.$http.get(`api/histories/${userId}/${week}`)
         this.orders = response.data.orders
       }
       catch (error) {
@@ -59,7 +57,7 @@ export default {
     }
   },
   mounted () {
-    this.getOrders(this.user_id, this.week)
+    this.getOrders(this.user.id, this.week)
   }
 }
 </script>
