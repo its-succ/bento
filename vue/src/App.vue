@@ -18,6 +18,7 @@
 /*
  * Root component
  */
+import axios from 'axios'
 import {
   QLayout,
   QToolbar,
@@ -41,6 +42,21 @@ export default {
         name: 'さかい'
       }
     }
+  },
+  methods: {
+    async getUser () {
+      try {
+        const user = await axios.get('api/users/current')
+        this.user.id = user.data.userId
+        this.user.name = user.data.nickname
+      }
+      catch (error) {
+        console.error(error)
+      }
+    }
+  },
+  mounted () {
+    this.getUser()
   }
 }
 </script>
