@@ -28,6 +28,12 @@ import 'quasar-extras/animate'
 import axios from 'axios'
 Vue.prototype.$http = axios
 
+/* filters */
+import * as filters from 'filters'
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#q-app',
