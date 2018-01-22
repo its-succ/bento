@@ -8,6 +8,7 @@
       <q-tabs slot="navigation">
         <q-route-tab slot="title" replace :to="{ name: 'history', params: { user_id: user.id }}" class="text-bold">履歴</q-route-tab>
         <q-route-tab slot="title" replace :to="{ name: 'order', params: { user_id: user.id }}" class="text-bold">注文</q-route-tab>
+        <q-route-tab slot="title" replace :to="{ name: 'ordering', params: { week: week }}" class="text-bold">注文合計</q-route-tab>
       </q-tabs>
       <router-view id="content-view" :user="user"></router-view>
     </q-layout>
@@ -39,7 +40,8 @@ export default {
       user: {
         id: 100,
         name: 'さかい'
-      }
+      },
+      week: '2017-11-06'
     }
   }
 }
