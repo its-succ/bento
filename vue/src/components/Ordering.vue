@@ -57,6 +57,7 @@
 
 <script>
 import axios from 'axios'
+import { currency } from '../filters'
 
 export default {
   name: 'ordering',
@@ -98,6 +99,7 @@ export default {
         this.gohan_orders = response.data.orders.filter(order => !order.isMain && order.price > 0)
         this.miso = response.data.orders.filter(order => !order.isMain && order.price === 0)[0]
         this.calcSummary()
+        this.format()
       }
       catch (error) {
         console.error(error)
@@ -123,6 +125,17 @@ export default {
             friday: previous.friday + current.friday
           }
         })
+    },
+    format () {
+      Object.keys(this.summary).forEach(key => {
+        this.summary[key] = currency(this.summary[key])
+      })
+      this.okazu_orders.forEach(order => {
+        order.price = currency(order.price)
+      })
+      this.gohan_orders.forEach(order => {
+        order.price = currency(order.price)
+      })
     },
     async getDates (week) {
       try {
