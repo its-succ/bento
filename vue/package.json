@@ -16,6 +16,7 @@
     "quasar-extras": "0.x",
     "quasar-framework": "^0.14.6",
     "vue": "^2.5.2",
+    "vue-axios": "^2.0.2",
     "vue-router": "^2.7.0"
   },
   "devDependencies": {
