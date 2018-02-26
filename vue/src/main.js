@@ -26,7 +26,8 @@ import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
 
 import axios from 'axios'
-Vue.prototype.$http = axios
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
 
 /* filters */
 import * as filters from 'filters'
