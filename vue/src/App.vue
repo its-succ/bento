@@ -38,9 +38,24 @@ export default {
     return {
       user: {
         id: 100,
-        name: 'さかい'
+        name: 'だれか'
       }
     }
+  },
+  methods: {
+    async getUser () {
+      try {
+        const user = await this.$http.get('api/users/current')
+        this.user.id = user.data.userId
+        this.user.name = user.data.nickname
+      }
+      catch (error) {
+        console.error(error)
+      }
+    }
+  },
+  mounted () {
+    this.getUser()
   }
 }
 </script>

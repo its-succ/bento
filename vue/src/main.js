@@ -25,7 +25,6 @@ import 'quasar-extras/ionicons'
 import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
 
-/* eslint-disable no-new */
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
@@ -36,6 +35,7 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+/* eslint-disable no-new */
 new Vue({
   el: '#q-app',
   router,
