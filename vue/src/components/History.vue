@@ -17,9 +17,9 @@
         <tr v-for="order in orders" :key="order.date">
           <td>{{order.date}}</td>
           <td>{{order.dow}}</td>
-          <td>{{order.main}}</td>
-          <td>{{order.rice}}</td>
-          <td>{{order.soup}}</td>
+          <td>{{order.okazu}}</td>
+          <td>{{order.gohan}}</td>
+          <td>{{order.miso}}</td>
           <td class="text-right">¥{{order.price}}</td>
         </tr>
       </tbody>
@@ -38,7 +38,7 @@ export default {
   },
   data () {
     return {
-      week: '2017-11-06',
+      week: '2017-10-16',
       orders: [
       ]
     }
@@ -46,7 +46,7 @@ export default {
   methods: {
     async getOrders (week) {
       try {
-        const response = await this.$http.get(`api/histories/${week}`)
+        const response = await this.$http.get(`api/orders/${week}`)
         this.orders = response.data.orders
       }
       catch (error) {
