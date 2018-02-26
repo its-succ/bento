@@ -40,15 +40,13 @@ export default {
     return {
       week: '2017-11-06',
       orders: [
-        { date: '11/1', dow: '月', main: '愛', rice: 'ふつう', soup: true, price: 300 },
-        { date: '11/2', dow: '火', main: 'ゆうき', rice: 'ふつう', soup: true, price: 360 }
       ]
     }
   },
   methods: {
-    async getOrders (userId, week) {
+    async getOrders (week) {
       try {
-        const response = await this.$http.get(`api/histories/${userId}/${week}`)
+        const response = await this.$http.get(`api/histories/${week}`)
         this.orders = response.data.orders
       }
       catch (error) {
@@ -57,7 +55,7 @@ export default {
     }
   },
   mounted () {
-    this.getOrders(this.user.id, this.week)
+    this.getOrders(this.week)
   }
 }
 </script>

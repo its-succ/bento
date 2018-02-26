@@ -14,8 +14,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr 
-            v-for="order in orders" 
+          <tr
+            v-for="order in orders"
             :key="order.date">
             <td>{{ order.date }}</td>
             <td>{{ order.dow }}</td>
@@ -115,9 +115,9 @@ export default {
     /**
      * 登録済みの注文を取得する
      */
-    async getOrders (userId, week) {
+    async getOrders (week) {
       try {
-        const response = await this.$http.get(`api/orders/${userId}/${week}`)
+        const response = await this.$http.get(`api/orders/${week}`)
         this.orders = response.data.orders
       }
       catch (error) {
@@ -191,7 +191,7 @@ export default {
     }
   },
   mounted () {
-    this.getOrders(this.user.id, this.week)
+    this.getOrders(this.week)
     this.getMasters()
   },
   computed: {
