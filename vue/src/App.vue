@@ -43,16 +43,18 @@ export default {
     }
   },
   methods: {
-    onSignedIn (user) {
-      console.log('onSignedIn')
-      console.log(user)
+    async onSignedIn (user) {
+      // サインイン後、サーバへログイン
+      const params = new URLSearchParams()
+      params.append('google_id_token', user.id_token)
+      await this.$http.post('/login', params)
       this.user = user
     }
   },
   async mounted () {
     const isSignedIn = await auth.isSignedIn()
     if (isSignedIn) {
-      this.user = await auth.getCurrentUser()
+      this.onSignedIn(await auth.getCurrentUser())
     }
   }
 }

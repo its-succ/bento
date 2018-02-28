@@ -43,8 +43,18 @@ export default {
       ]
     }
   },
+  watch: {
+    user () {
+      // userが変化したら注文を取得する
+      this.getOrders(this.week)
+    }
+  },
   methods: {
     async getOrders (week) {
+      if (this.user.id === undefined) {
+        // user未設定時はNOP
+        return
+      }
       try {
         const response = await this.$http.get(`api/orders/${week}`)
         this.orders = response.data.orders

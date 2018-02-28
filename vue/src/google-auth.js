@@ -1,7 +1,6 @@
 const GOOGLE_CLIENT_ID = '599875423654-67v0atig5nn91to63c2d4a7lmpgi55ns.apps.googleusercontent.com'
 
 async function getGoogleAuth () {
-  console.log('enter auth')
   if (window.gapi.auth2 === undefined) {
     const load = () => {
       return new Promise((resolve, reject) => {
@@ -11,11 +10,8 @@ async function getGoogleAuth () {
         })
       })
     }
-    console.log('before load')
     await load()
-    console.log('afeter load')
   }
-  console.log('leave auth')
   return window.gapi.auth2.getAuthInstance()
 }
 
