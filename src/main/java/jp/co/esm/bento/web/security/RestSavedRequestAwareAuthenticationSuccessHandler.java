@@ -40,8 +40,4 @@ public class RestSavedRequestAwareAuthenticationSuccessHandler extends SimpleUrl
 
     clearAuthenticationAttributes(request);
   }
-
-  public void setRequestCache(RequestCache requestCache) {
-    this.requestCache = requestCache;
-  }
 }
