@@ -33,6 +33,6 @@ export default new VueRouter({
     { path: '/', redirect: '/history/100' },
     { path: '/history/:user_id', name: 'history', component: History, props: true },
     { path: '/order/:user_id', name: 'order', component: Order, props: true },
-    { path: '/ordering/:week', name: 'ordering', component: Ordering, props: true }
+    { path: '/ordering', name: 'ordering', component: Ordering, props: true }
   ]
 })

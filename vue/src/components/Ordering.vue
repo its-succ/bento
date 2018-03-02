@@ -61,43 +61,41 @@ import { currency } from '../filters'
 
 export default {
   name: 'ordering',
-  props: {
-    user_id: {
-      type: String,
-      required: true
-    }
-  },
   data () {
     return {
       week: '2017-11-06',
       dates: {
-        monday: '9月18日(月)', tuesday: '9月19日(火)', wednesday: '9月20日(水)', thursday: '9月21日(木)', friday: '9月22日(金)'
+        monday: '', tuesday: '', wednesday: '', thursday: '', friday: ''
       },
-      okazu_orders: [
-        { menu: '和風', price: 308, monday: 1, tuesday: 0, wednesday: 1, thursday: 1, friday: 0 },
-        { menu: '愛', price: 308, monday: 0, tuesday: 2, wednesday: 1, thursday: 0, friday: 0 },
-        { menu: 'ゆうき', price: 360, monday: 1, tuesday: 0, wednesday: 0, thursday: 0, friday: 1 }
-      ],
-      gohan_orders: [
-        { menu: 'ライス', price: 103, monday: 3, tuesday: 3, wednesday: 1, thursday: 0, friday: 0 },
-        { menu: '健康米', price: 185, monday: 1, tuesday: 0, wednesday: 2, thursday: 0, friday: 2 },
-        { menu: '応援ランチ', price: 360, monday: 3, tuesday: 2, wednesday: 1, thursday: 0, friday: 0 }
-      ],
+      okazu_orders: [],
+      gohan_orders: [],
       miso: {
-        menu: '味噌汁', price: 0, monday: 1, tuesday: 0, wednesday: 1, thursday: 2, friday: 0
+        menu: '', price: 0, monday: 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0
       },
       summary: {
-        monday: 100, tuesday: 200, wednesday: 300, thursday: 400, friday: 500
+        monday: 0, tuesday: 0, wednesday: 0, thursday: 0, friday: 0
       }
     }
   },
   methods: {
-    async getOrders (userId, week) {
+    async getOrders (week) {
       try {
         const response = await axios.get(`api/ordering/${week}`)
-        this.okazu_orders = response.data.orders.filter(order => order.isMain)
-        this.gohan_orders = response.data.orders.filter(order => !order.isMain && order.price > 0)
-        this.miso = response.data.orders.filter(order => !order.isMain && order.price === 0)[0]
+        const orders = response.data.orders.map(order => {
+          return {
+            menu: order.menu,
+            isMain: order.isMain,
+            price: order.price,
+            monday: order[this.dates.monday],
+            tuesday: order[this.dates.tuesday],
+            wednesday: order[this.dates.wednesday],
+            thursday: order[this.dates.thursday],
+            friday: order[this.dates.friday]
+          }
+        })
+        this.okazu_orders = orders.filter(order => order.isMain)
+        this.gohan_orders = orders.filter(order => !order.isMain && order.price > 0)
+        this.miso = orders.filter(order => !order.isMain && order.price === 0)[0]
         this.calcSummary()
         this.format()
       }
@@ -138,18 +136,17 @@ export default {
       })
     },
     async getDates (week) {
-      try {
-        const response = await axios.get(`api/dates/${week}`)
-        this.dates = response.data.dates
-      }
-      catch (error) {
-        console.error(error)
-      }
+      // TODO weekからの日付計算はフロント側でやる（曜日も）
+      this.dates.monday = '2017-11-06'
+      this.dates.tuesday = '2017-11-07'
+      this.dates.wednesday = '2017-11-08'
+      this.dates.thursday = '2017-11-09'
+      this.dates.friday = '2017-11-10'
     }
   },
   mounted () {
-    this.getOrders(this.user_id, this.week)
     this.getDates(this.week)
+    this.getOrders(this.week)
   }
 }
 </script>
