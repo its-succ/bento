@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+import com.google.appengine.repackaged.com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.appengine.repackaged.com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.appengine.repackaged.com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.appengine.repackaged.com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.appengine.repackaged.com.google.api.client.json.jackson2.JacksonFactory;
 import jp.co.esm.bento.web.model.GoogleUser;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +44,7 @@ public class GoogleIdAuthenticationProvider implements AuthenticationProvider {
   @Override
   public Authentication authenticate(Authentication authentication) throws AuthenticationException {
     String tokenString = (String) authentication.getCredentials();
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(UrlFetchTransport.getDefaultInstance(), JacksonFactory.getDefaultInstance())
       .setAudience(singletonList(clientId))
       .build();
     GoogleIdToken idToken;
