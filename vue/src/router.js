@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Login from '@/Login.vue'
 import History from '@/History.vue'
 import Order from '@/Order.vue'
 
@@ -29,8 +30,9 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', redirect: '/history/100' },
-    { path: '/history/:user_id', name: 'history', component: History, props: true },
-    { path: '/order/:user_id', name: 'order', component: Order, props: true }
+    { path: '/', redirect: '/history' },
+    { path: '/login', name: 'login', component: Login },
+    { path: '/history', name: 'history', component: History, props: true, meta: { requireAuth: true } },
+    { path: '/order', name: 'order', component: Order, props: true, meta: { requireAuth: true } }
   ]
 })

@@ -35,6 +35,20 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+import auth from './google-auth'
+
+router.beforeEach(async (to, from, next) => {
+  if (!to.matched.some(record => record.meta.requireAuth)) {
+    return next()
+  }
+
+  const isSignedIn = await auth.isSignedIn()
+  if (isSignedIn) {
+    return next()
+  }
+  next({ path: '/login', query: { redirect: to.fullPath } })
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#q-app',

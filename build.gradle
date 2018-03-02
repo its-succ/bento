@@ -42,8 +42,8 @@ configurations {
 }
 
 dependencies {
-  compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
   compile 'org.springframework.boot:spring-boot-starter-web'
+  compile 'org.springframework.boot:spring-boot-starter-security'
   providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
   compile 'com.google.appengine:appengine-api-1.0-sdk:+'
   compileOnly 'org.projectlombok:lombok'

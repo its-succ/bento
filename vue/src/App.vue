@@ -6,10 +6,10 @@
         <q-toolbar-title class="text-bold">ぐるめし</q-toolbar-title>
       </q-toolbar>
       <q-tabs slot="navigation">
-        <q-route-tab slot="title" replace :to="{ name: 'history', params: { user_id: user.id }}" class="text-bold">履歴</q-route-tab>
-        <q-route-tab slot="title" replace :to="{ name: 'order', params: { user_id: user.id }}" class="text-bold">注文</q-route-tab>
+        <q-route-tab slot="title" replace :to="{ name: 'history' }" class="text-bold">履歴</q-route-tab>
+        <q-route-tab slot="title" replace :to="{ name: 'order' }" class="text-bold">注文</q-route-tab>
       </q-tabs>
-      <router-view id="content-view" :user="user"></router-view>
+      <router-view id="content-view" :user="user" @signed-in="onSignedIn"></router-view>
     </q-layout>
   </div>
 </template>
@@ -26,6 +26,8 @@ import {
   QRouteTab
 } from 'quasar'
 
+import auth from './google-auth'
+
 export default {
   components: {
     QLayout,
@@ -37,25 +39,23 @@ export default {
   data () {
     return {
       user: {
-        id: 100,
-        name: 'だれか'
       }
     }
   },
   methods: {
-    async getUser () {
-      try {
-        const user = await this.$http.get('api/users/current')
-        this.user.id = user.data.userId
-        this.user.name = user.data.nickname
-      }
-      catch (error) {
-        console.error(error)
-      }
+    async onSignedIn (user) {
+      // サインイン後、サーバへログイン
+      const params = new URLSearchParams()
+      params.append('google_id_token', user.id_token)
+      await this.$http.post('/login', params)
+      this.user = user
     }
   },
-  mounted () {
-    this.getUser()
+  async mounted () {
+    const isSignedIn = await auth.isSignedIn()
+    if (isSignedIn) {
+      this.onSignedIn(await auth.getCurrentUser())
+    }
   }
 }
 </script>

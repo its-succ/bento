@@ -17,9 +17,9 @@
         <tr v-for="order in orders" :key="order.date">
           <td>{{order.date}}</td>
           <td>{{order.dow}}</td>
-          <td>{{order.main}}</td>
-          <td>{{order.rice}}</td>
-          <td>{{order.soup}}</td>
+          <td>{{order.okazu}}</td>
+          <td>{{order.gohan}}</td>
+          <td>{{order.miso}}</td>
           <td class="text-right">¥{{order.price}}</td>
         </tr>
       </tbody>
@@ -38,17 +38,25 @@ export default {
   },
   data () {
     return {
-      week: '2017-11-06',
+      week: '2017-10-16',
       orders: [
-        { date: '11/1', dow: '月', main: '愛', rice: 'ふつう', soup: true, price: 300 },
-        { date: '11/2', dow: '火', main: 'ゆうき', rice: 'ふつう', soup: true, price: 360 }
       ]
     }
   },
+  watch: {
+    user () {
+      // userが変化したら注文を取得する
+      this.getOrders(this.week)
+    }
+  },
   methods: {
-    async getOrders (userId, week) {
+    async getOrders (week) {
+      if (this.user.id === undefined) {
+        // user未設定時はNOP
+        return
+      }
       try {
-        const response = await this.$http.get(`api/histories/${userId}/${week}`)
+        const response = await this.$http.get(`api/orders/${week}`)
         this.orders = response.data.orders
       }
       catch (error) {
@@ -57,7 +65,7 @@ export default {
     }
   },
   mounted () {
-    this.getOrders(this.user.id, this.week)
+    this.getOrders(this.week)
   }
 }
 </script>
