@@ -1,77 +1,81 @@
 <template lang="html">
   <div class="order">
-    <p class="caption">{{ welcomeMessage }}<br/>
-    {{ user.name }} さんの注文</p>
-    <form id="form">
-      <table class="q-table bordered vertical-separator striped-odd">
-        <thead class="bg-primary text-white">
-          <tr class="text-center">
-            <th colspan="2" >日付</th>
-            <th>おかず</th>
-            <th>ごはん</th>
-            <th>味噌汁</th>
-            <th>値段</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="order in orders"
-            :key="order.date">
-            <td>{{ order.date }}</td>
-            <td>{{ order.dow }}</td>
-            <td>
-              <q-select
-                v-model="order.okazu"
-                inverted
-                color="light-blue"
-                separator
-                :disabled="closed"
-                :options="options.okazu"
-                @change="validate(order)"
-              />
-            </td>
-            <td>
-              <q-select
-                v-model="order.gohan"
-                inverted
-                color="cyan"
-                separator
-                :disable="closed"
-                :options="options.gohan"
-                @change="validate(order)"
-              />
-            </td>
-            <td>
-              <q-toggle
-                v-model="order.miso"
-                color="light-green"
-                :disable="closed"
-                :click="validateMiso(order)"
-              />
-            </td>
-            <td class="text-right">
-              {{ order | total(options) | currency }}
-            </td>
-          </tr>
-          <tr>
-            <td colspan="5" class="text-right">合計</td>
-            <td class="text-right">{{ orders | payment | currency }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-    <div class="layout-padding text-center">
-      <q-fixed-position corner="bottom-left" :offset="[18, 18]">
-        <q-btn push color="primary" @click="submitOrder()">注文する</q-btn>
-      </q-fixed-position>
-      <q-fixed-position corner="bottom-right" :offset="[18, 18]">
-        <q-btn push color="secondary" @click="noOrder()">この週はいりません</q-btn>
-      </q-fixed-position>
+    <navigation></navigation>
+    <div id="content-view">
+      <p class="caption">{{ welcomeMessage }}<br/>
+      {{ user.name }} さんの注文</p>
+      <form id="form">
+        <table class="q-table bordered vertical-separator striped-odd">
+          <thead class="bg-primary text-white">
+            <tr class="text-center">
+              <th colspan="2" >日付</th>
+              <th>おかず</th>
+              <th>ごはん</th>
+              <th>味噌汁</th>
+              <th>値段</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="order in orders"
+              :key="order.date">
+              <td>{{ order.date }}</td>
+              <td>{{ order.dow }}</td>
+              <td>
+                <q-select
+                  v-model="order.okazu"
+                  inverted
+                  color="light-blue"
+                  separator
+                  :disabled="closed"
+                  :options="options.okazu"
+                  @change="validate(order)"
+                />
+              </td>
+              <td>
+                <q-select
+                  v-model="order.gohan"
+                  inverted
+                  color="cyan"
+                  separator
+                  :disable="closed"
+                  :options="options.gohan"
+                  @change="validate(order)"
+                />
+              </td>
+              <td>
+                <q-toggle
+                  v-model="order.miso"
+                  color="light-green"
+                  :disable="closed"
+                  :click="validateMiso(order)"
+                />
+              </td>
+              <td class="text-right">
+                {{ order | total(options) | currency }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="5" class="text-right">合計</td>
+              <td class="text-right">{{ orders | payment | currency }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <div class="layout-padding text-center">
+        <q-fixed-position corner="bottom-left" :offset="[18, 18]">
+          <q-btn push color="primary" @click="submitOrder()">注文する</q-btn>
+        </q-fixed-position>
+        <q-fixed-position corner="bottom-right" :offset="[18, 18]">
+          <q-btn push color="secondary" @click="noOrder()">この週はいりません</q-btn>
+        </q-fixed-position>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Navigation from './Navigation'
 import {
   Toast,
   Loading,
@@ -83,6 +87,7 @@ import {
 
 export default {
   components: {
+    Navigation,
     QFixedPosition,
     QSelect,
     QToggle,

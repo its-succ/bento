@@ -4,13 +4,9 @@
     <q-layout>
       <q-toolbar slot="header">
         <q-toolbar-title class="text-bold">ぐるめし</q-toolbar-title>
+        <q-btn flat icon="exit to app" @click="signOut" />
       </q-toolbar>
-      <q-tabs slot="navigation">
-        <q-route-tab slot="title" replace :to="{ name: 'history' }" class="text-bold">履歴</q-route-tab>
-        <q-route-tab slot="title" replace :to="{ name: 'order' }" class="text-bold">注文</q-route-tab>
-        <q-route-tab slot="title" replace :to="{ name: 'ordering' }" class="text-bold">注文合計</q-route-tab>
-      </q-tabs>
-      <router-view id="content-view" :user="user" @signed-in="onSignedIn"></router-view>
+      <router-view :user="user" @signed-in="onSignedIn"></router-view>
     </q-layout>
   </div>
 </template>
@@ -23,8 +19,7 @@ import {
   QLayout,
   QToolbar,
   QToolbarTitle,
-  QTabs,
-  QRouteTab
+  QBtn
 } from 'quasar'
 
 import auth from './google-auth'
@@ -34,8 +29,7 @@ export default {
     QLayout,
     QToolbar,
     QToolbarTitle,
-    QTabs,
-    QRouteTab
+    QBtn
   },
   data () {
     return {
@@ -45,11 +39,12 @@ export default {
   },
   methods: {
     async onSignedIn (user) {
-      // サインイン後、サーバへログイン
-      const params = new URLSearchParams()
-      params.append('google_id_token', user.id_token)
-      await this.$http.post('/login', params)
       this.user = user
+    },
+    async signOut () {
+      await this.$http.post('/logout')
+      await auth.signOut()
+      this.$router.push('/login')
     }
   },
   async mounted () {
