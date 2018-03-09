@@ -8,6 +8,7 @@
       <q-tabs slot="navigation">
         <q-route-tab slot="title" replace :to="{ name: 'history' }" class="text-bold">履歴</q-route-tab>
         <q-route-tab slot="title" replace :to="{ name: 'order' }" class="text-bold">注文</q-route-tab>
+        <q-route-tab slot="title" replace :to="{ name: 'ordering' }" class="text-bold">注文合計</q-route-tab>
       </q-tabs>
       <router-view id="content-view" :user="user" @signed-in="onSignedIn"></router-view>
     </q-layout>
