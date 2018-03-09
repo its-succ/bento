@@ -34,7 +34,7 @@ export default new VueRouter({
     { path: '/', redirect: '/history' },
     { path: '/login', name: 'login', component: Login },
     { path: '/history', name: 'history', component: History, props: true, meta: { requireAuth: true } },
-    { path: '/order', name: 'order', component: Order, props: true, meta: { requireAuth: true } }
+    { path: '/order', name: 'order', component: Order, props: true, meta: { requireAuth: true } },
     { path: '/ordering', name: 'ordering', component: Ordering, props: true }
   ]
 })
