@@ -20,6 +20,10 @@ export default {
     const googleAuth = await getGoogleAuth()
     return googleAuth.isSignedIn.get()
   },
+  async signOut () {
+    const googleAuth = await getGoogleAuth()
+    await googleAuth.signOut()
+  },
   async getCurrentUser () {
     const googleAuth = await getGoogleAuth()
     return this.createUser(googleAuth.currentUser.get())

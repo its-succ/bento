@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private SimpleUrlAuthenticationFailureHandler authenticationFailureHandler;
+
+  @Autowired
+  private SimpleUrlLogoutSuccessHandler logoutSuccessHandler;
 
   @Override
   public void configure(WebSecurity web) {
@@ -43,11 +47,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .passwordParameter("google_id_token")
         .successHandler(authenticationSuccessHandler)
         .failureHandler(authenticationFailureHandler)
+        .and()
+      .logout()
+        .logoutSuccessHandler(logoutSuccessHandler)
     ;
   }
 
   @Bean
   public SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler() {
     return new SimpleUrlAuthenticationFailureHandler();
+  }
+
+  @Bean
+  public SimpleUrlLogoutSuccessHandler simpleUrlLogoutSuccessHandler() {
+    return new SimpleUrlLogoutSuccessHandler();
   }
 }

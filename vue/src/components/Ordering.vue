@@ -1,65 +1,72 @@
 <template>
   <div class="ordering">
-    <table class="q-table bordered vertical-separator striped-odd">
-      <caption class="text-left">{{week}} 〜
-      </caption>
-      <thead class="bg-primary text-white">
-        <tr>
-          <th colspan="2">メニュー</th>
-          <th>値段</th>
-          <th>{{dates.monday}}</th>
-          <th>{{dates.tuesday}}</th>
-          <th>{{dates.wednesday}}</th>
-          <th>{{dates.thursday}}</th>
-          <th>{{dates.friday}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="order in okazu_orders" :key="order.menu">
-          <td class="text-left">{{order.menu}}</td>
-          <td class="text-left">おかず</td>
-          <td class="text-right">{{order.price}}</td>
-          <td class="text-right">{{order.monday}}</td>
-          <td class="text-right">{{order.tuesday}}</td>
-          <td class="text-right">{{order.wednesday}}</td>
-          <td class="text-right">{{order.thursday}}</td>
-          <td class="text-right">{{order.friday}}</td>
-        </tr>
-        <tr v-for="order in gohan_orders" :key="order.menu">
-          <td class="text-left" colspan="2">{{order.menu}}</td>
-          <td class="text-right">{{order.price}}</td>
-          <td class="text-right">{{order.monday}}</td>
-          <td class="text-right">{{order.tuesday}}</td>
-          <td class="text-right">{{order.wednesday}}</td>
-          <td class="text-right">{{order.thursday}}</td>
-          <td class="text-right">{{order.friday}}</td>
-        </tr>
-        <tr>
-          <td class="text-left" colspan="3">{{miso.menu}}</td>
-          <td class="text-right">{{miso.monday}}</td>
-          <td class="text-right">{{miso.tuesday}}</td>
-          <td class="text-right">{{miso.wednesday}}</td>
-          <td class="text-right">{{miso.thursday}}</td>
-          <td class="text-right">{{miso.friday}}</td>
-        </tr>
-        <tr>
-          <td class="text-left" colspan="3">合計金額</td>
-          <td class="text-right">{{summary.monday}}</td>
-          <td class="text-right">{{summary.tuesday}}</td>
-          <td class="text-right">{{summary.wednesday}}</td>
-          <td class="text-right">{{summary.thursday}}</td>
-          <td class="text-right">{{summary.friday}}</td>
-        </tr>
-      </tbody>
-    </table>
+    <navigation></navigation>
+    <div id="content-view">
+      <table class="q-table bordered vertical-separator striped-odd">
+        <caption class="text-left">{{week}} 〜
+        </caption>
+        <thead class="bg-primary text-white">
+          <tr>
+            <th colspan="2">メニュー</th>
+            <th>値段</th>
+            <th>{{dates.monday}}</th>
+            <th>{{dates.tuesday}}</th>
+            <th>{{dates.wednesday}}</th>
+            <th>{{dates.thursday}}</th>
+            <th>{{dates.friday}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in okazu_orders" :key="order.menu">
+            <td class="text-left">{{order.menu}}</td>
+            <td class="text-left">おかず</td>
+            <td class="text-right">{{order.price}}</td>
+            <td class="text-right">{{order.monday}}</td>
+            <td class="text-right">{{order.tuesday}}</td>
+            <td class="text-right">{{order.wednesday}}</td>
+            <td class="text-right">{{order.thursday}}</td>
+            <td class="text-right">{{order.friday}}</td>
+          </tr>
+          <tr v-for="order in gohan_orders" :key="order.menu">
+            <td class="text-left" colspan="2">{{order.menu}}</td>
+            <td class="text-right">{{order.price}}</td>
+            <td class="text-right">{{order.monday}}</td>
+            <td class="text-right">{{order.tuesday}}</td>
+            <td class="text-right">{{order.wednesday}}</td>
+            <td class="text-right">{{order.thursday}}</td>
+            <td class="text-right">{{order.friday}}</td>
+          </tr>
+          <tr>
+            <td class="text-left" colspan="3">{{miso.menu}}</td>
+            <td class="text-right">{{miso.monday}}</td>
+            <td class="text-right">{{miso.tuesday}}</td>
+            <td class="text-right">{{miso.wednesday}}</td>
+            <td class="text-right">{{miso.thursday}}</td>
+            <td class="text-right">{{miso.friday}}</td>
+          </tr>
+          <tr>
+            <td class="text-left" colspan="3">合計金額</td>
+            <td class="text-right">{{summary.monday}}</td>
+            <td class="text-right">{{summary.tuesday}}</td>
+            <td class="text-right">{{summary.wednesday}}</td>
+            <td class="text-right">{{summary.thursday}}</td>
+            <td class="text-right">{{summary.friday}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import { currency } from '../filters'
+import Navigation from './Navigation'
 
 export default {
+  components: {
+    Navigation
+  },
   name: 'ordering',
   data () {
     return {
