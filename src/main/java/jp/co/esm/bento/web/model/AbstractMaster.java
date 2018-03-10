@@ -1,19 +1,14 @@
 package jp.co.esm.bento.web.model;
 
-import java.io.Serializable;
-
 import com.google.appengine.api.datastore.Entity;
-
-//import com.google.cloud.datastore.Entity;
 
 import lombok.Data;
 
 /**
  * マスタの基底クラス 
  */
-@SuppressWarnings("serial")
 @Data
-public abstract class AbstractMaster implements Serializable {
+public abstract class AbstractMaster {
 
   // ID
   protected Long id;

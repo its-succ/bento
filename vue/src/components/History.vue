@@ -18,7 +18,7 @@
         <tbody>
           <tr v-for="order in orders" :key="order.date">
             <td>{{order.date}}</td>
-            <td>{{order.dow}}</td>
+            <td><!-- 曜日をここに --></td>
             <td>{{order.okazu}}</td>
             <td>{{order.gohan}}</td>
             <td>{{order.miso}}</td>
@@ -64,7 +64,7 @@ export default {
       }
       try {
         const response = await this.$http.get(`api/orders/${week}`)
-        this.orders = response.data.orders
+        this.orders = response.data
       }
       catch (error) {
         console.error(error)

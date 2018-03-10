@@ -1,10 +1,11 @@
 package jp.co.esm.bento.web.model;
 
-import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Entity;
 
+import jp.co.esm.bento.web.util.DateUtil;
 import lombok.Data;
 
 /**
@@ -12,18 +13,13 @@ import lombok.Data;
  *
  */
 @Data
-public class Order implements Serializable {
-
-  /**
-   * シリアルUID
-   */
-  private static final long serialVersionUID = -7771442788859375301L;
+public class Order {
 
   // ID
   protected Long id;
   
-  // 名称
-  protected Date date;
+  // 日付(yyyy-mm-dd)
+  protected LocalDate date;
   
   // ごはんマスタの値
   protected String gohan;
@@ -37,6 +33,9 @@ public class Order implements Serializable {
   // ユーザID
   protected String userId;
   
+  // 値段
+  protected Long price;
+  
   // プロパティ名：ID
   public static final String ID = "id";
   // プロパティ名：date
@@ -49,6 +48,8 @@ public class Order implements Serializable {
   public static final String OKAZU = "okazu";
   // プロパティ名：userId
   public static final String USER_ID = "userId";
+  // プロパティ名：price
+  public static final String PRICE = "price";
   
   /**
    * 指定のエンティティの内容をモデルに設定します。
@@ -57,11 +58,12 @@ public class Order implements Serializable {
   public void setProperties(Entity entity)
   {
     this.id = entity.getKey().getId();
-    this.date = (Date)entity.getProperty(DATE);
+    this.date = DateUtil.dateToLocalDate((Date)entity.getProperty(DATE));
     this.gohan = (String)entity.getProperty(GOHAN);
     this.miso = (Boolean)entity.getProperty(MISO);
     this.okazu = (String)entity.getProperty(OKAZU);
     this.userId = (String)entity.getProperty(USER_ID);
+    this.price = (Long)entity.getProperty(PRICE);
   }
   
   /**
@@ -71,10 +73,11 @@ public class Order implements Serializable {
   public void convert(Entity entity)
   {
     entity.setProperty(ID, id);
-    entity.setProperty(DATE, date);
+    entity.setProperty(DATE, DateUtil.localDateToDate(date));
     entity.setProperty(GOHAN, gohan);
     entity.setProperty(MISO, miso);
     entity.setProperty(OKAZU, okazu);
     entity.setProperty(USER_ID, userId);
+    entity.setProperty(PRICE, price);
   }
 }

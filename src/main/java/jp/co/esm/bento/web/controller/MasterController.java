@@ -1,7 +1,6 @@
 package jp.co.esm.bento.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +22,8 @@ public class MasterController {
    * すべてのマスタを取得します。
    * @return
    */
-  @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/all")
   public Master getAll() {
-    log.info("getMasterAll");
     return masterService.getAllMaster();
   }
  

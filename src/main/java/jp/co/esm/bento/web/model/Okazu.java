@@ -12,9 +12,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 public class Okazu extends AbstractMaster {
 
-  // シリアルUID
-  private static final long serialVersionUID = -6263238718583758680L;
-
   // 曜日
   protected Long dayofweek;
   

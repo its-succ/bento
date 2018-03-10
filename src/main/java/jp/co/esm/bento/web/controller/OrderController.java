@@ -1,5 +1,6 @@
 package jp.co.esm.bento.web.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jp.co.esm.bento.web.model.GoogleUser;
@@ -19,12 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-  // マスタサービス
+  // 注文サービス
   @Autowired
   private OrderService orderService;
 
+  /**
+   * 指定のユーザと週に該当する注文内容を取得します。
+   * 
+   * @param week 週の日付（月曜日始まり）
+   * @param user ユーザ
+   * @return 注文内容
+   */
   @GetMapping("/{week}")
-  public List<Order> getOrders(@PathVariable String week, @AuthenticationPrincipal GoogleUser user) {
+  public List<Order> getOrders(@PathVariable LocalDate week, @AuthenticationPrincipal GoogleUser user) {
     log.info("getOrders");
     log.info("week: {}", week);
     log.info("user: {}", user);

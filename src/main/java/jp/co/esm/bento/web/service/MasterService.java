@@ -5,17 +5,17 @@ import java.time.DayOfWeek;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.appengine.api.datastore.Transaction;
-
 import jp.co.esm.bento.web.model.Gohan;
 import jp.co.esm.bento.web.model.Master;
 import jp.co.esm.bento.web.model.Okazu;
 import jp.co.esm.bento.web.repository.GohanRepository;
 import jp.co.esm.bento.web.repository.OkazuRepository;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * マスタ全般のサービスクラスです。
  */
+@Slf4j
 @Service
 public class MasterService {
 
@@ -35,6 +35,7 @@ public class MasterService {
     Master master = new Master();
     master.setOkazu(okazuRepository.list());
     master.setGohan(gohanRepository.list());
+    log.info("master :{}", master);
     return master;
   }
   
@@ -70,16 +71,16 @@ public class MasterService {
     }
     {
       Okazu model = new Okazu();
-      model.setLabel("ゆうき");
-      model.setValue("yuuki");
-      model.setPrice(new Long(411));
+      model.setLabel("げんき");
+      model.setValue("genki");
+      model.setPrice(new Long(515));
       okazuRepository.create(model);
     }
     {
       Okazu model = new Okazu();
-      model.setLabel("げんき");
-      model.setValue("genki");
-      model.setPrice(new Long(515));
+      model.setLabel("応援");
+      model.setValue("ouen");
+      model.setPrice(new Long(360));
       okazuRepository.create(model);
     }
     {

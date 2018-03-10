@@ -1,5 +1,6 @@
 package jp.co.esm.bento.web.repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -15,18 +16,18 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.QueryResultIterator;
 
 import jp.co.esm.bento.web.model.Order;
 import jp.co.esm.bento.web.util.DateUtil;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Orderエンティティのリポジトリクラスです。
  */
-@Slf4j
 @Repository
 public class OrderRepository implements DatastoreRepository<Order> {
 
@@ -83,22 +84,27 @@ public class OrderRepository implements DatastoreRepository<Order> {
    * @param week 週の始めの日付
    * @return 取得した結果
    */
-  public List<Order> listByUserIdAndWeek(String userId, String week)
+  public List<Order> listByUserIdAndWeek(String userId, LocalDate week)
   {
-    List<Date> listDate = DateUtil.weekDate(week);
-    log.info("", listDate);
-    if (listDate.isEmpty()) {
-      return new ArrayList<>();
-    }
+    // 週の初めの日付と終わりの日付を取得
+    Date fromDate = DateUtil.localDateToDate(week);
+    Date toDate = DateUtil.localDateToDate(week.plusDays(4));
+    
+    Filter userFilter = new FilterPredicate(Order.USER_ID, FilterOperator.EQUAL, userId);
+    Filter dateFilter = CompositeFilterOperator.and(new FilterPredicate(Order.DATE, FilterOperator.GREATER_THAN_OR_EQUAL, fromDate),
+                                                    new FilterPredicate(Order.DATE, FilterOperator.LESS_THAN_OR_EQUAL, toDate));
     Query query = new Query(KIND)
-        .setFilter(new FilterPredicate(Order.USER_ID, FilterOperator.EQUAL, userId))
-        .setFilter(new FilterPredicate(Order.DATE, FilterOperator.GREATER_THAN_OR_EQUAL, listDate.get(0)))
-        .setFilter(new FilterPredicate(Order.DATE, FilterOperator.LESS_THAN_OR_EQUAL, listDate.get(4)));
+        .setFilter(CompositeFilterOperator.and(userFilter, dateFilter));
     PreparedQuery preparedQuery = datastore.prepare(query);
     QueryResultIterator<Entity> entities = preparedQuery.asQueryResultIterator();
     return entitiesToModels(entities);
   }
 
+  /**
+   * エンティティの内容をOrderに変換します。
+   * @param entity エンティティ
+   * @return 作成したOrder
+   */
   private Order entityToModel(Entity entity)
   {
     Order order = new Order();
@@ -106,6 +112,11 @@ public class OrderRepository implements DatastoreRepository<Order> {
     return order;
   }
   
+  /**
+   * エンティティの集まりをOrderのリストに変換します。
+   * @param entities エンティティの集まり
+   * @return 作成したOrderを格納したリスト
+   */
   private List<Order> entitiesToModels(Iterator<Entity> entities) {
     List<Order> results = new ArrayList<>();
     while (entities.hasNext()) {
