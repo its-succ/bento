@@ -36,6 +36,9 @@ appengine {
   deploy {
     project 'bento-184202'
   }
+  run {
+    jvmFlags = ['-Ddatastore.backing_store="datastore/local_db.bin"']
+  }
 }
 configurations {
   compile.exclude module: 'jul-to-slf4j'
