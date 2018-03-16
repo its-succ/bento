@@ -16,25 +16,25 @@ import lombok.Data;
 public class Order {
 
   // ID
-  protected Long id;
+  private Long id;
   
   // 日付(yyyy-mm-dd)
-  protected LocalDate date;
+  private LocalDate date;
   
   // ごはんマスタの値
-  protected String gohan;
+  private String gohan;
   
   // 味噌汁有無
-  protected Boolean miso;
+  private Boolean miso;
   
   // おかずマスタの値
-  protected String okazu;
+  private String okazu;
   
   // ユーザID
-  protected String userId;
+  private String userId;
   
   // 値段
-  protected Long price;
+  private Long price;
   
   // プロパティ名：ID
   public static final String ID = "id";

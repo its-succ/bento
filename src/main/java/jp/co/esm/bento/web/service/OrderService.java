@@ -57,7 +57,7 @@ public class OrderService {
       order.setGohan("");
       order.setOkazu("");
       order.setMiso(false);
-      order.setPrice(new Long(0));
+      order.setPrice(0L);
       results.add(order);
     }
     // 日付でソート

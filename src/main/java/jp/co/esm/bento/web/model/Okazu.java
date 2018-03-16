@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 public class Okazu extends AbstractMaster {
 
   // 曜日
-  protected Long dayofweek;
+  private Long dayofweek;
   
   // プロパティ名：dayofweek
   public static final String DAYOFWEEK = "dayofweek";

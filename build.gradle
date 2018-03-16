@@ -21,7 +21,7 @@ group = 'jp.co.esm.bento'
 version = '0.0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
-targetCompatibility = 1.8 
+targetCompatibility = 1.8
 
 ext {
   vueDir = "${project.projectDir}/vue"
