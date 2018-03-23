@@ -1,8 +1,9 @@
 package jp.co.esm.bento.web.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -23,7 +24,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import jp.co.esm.bento.web.BentoWebApplication;
 import jp.co.esm.bento.web.model.Okazu;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ContextConfiguration(classes= BentoWebApplication.class)
 @SpringBootTest
 public class OkazuRepositoryTest {
@@ -86,11 +87,11 @@ public class OkazuRepositoryTest {
     okazu.setValue("higawari0");
     Entity actual = repository.create(okazu);
     
-    assertNotNull("エンティティが作成されませんでした。", actual);
-    assertEquals("エンティティのLabelの値が一致しません。", okazu.getLabel(), actual.getProperty(Okazu.LABEL));
-    assertEquals("エンティティのPriceの値が一致しません。", okazu.getPrice(), actual.getProperty(Okazu.PRICE));
-    assertEquals("エンティティのValueの値が一致しません。", okazu.getValue(), actual.getProperty(Okazu.VALUE));
-    assertEquals("エンティティのDayofweekの値が一致しません。", okazu.getDayofweek(), actual.getProperty(Okazu.DAYOFWEEK));
+    assertThat(actual, is(notNullValue()));
+    assertThat(actual.getProperty(Okazu.LABEL), is(okazu.getLabel()));
+    assertThat(actual.getProperty(Okazu.PRICE), is(okazu.getPrice()));
+    assertThat(actual.getProperty(Okazu.VALUE), is(okazu.getValue()));
+    assertThat(actual.getProperty(Okazu.DAYOFWEEK), is(okazu.getDayofweek()));
   }
 
   @Test
@@ -98,11 +99,11 @@ public class OkazuRepositoryTest {
     Entity entity = testDatas.get(0);
     Okazu actual = repository.read(entity.getKey().getId());
     
-    assertNotNull("指定のIDで取得できませんでした。", actual);
-    assertEquals("モデルのLabelの値が一致しません。", entity.getProperty(Okazu.LABEL), actual.getLabel());
-    assertEquals("モデルのPriceの値が一致しません。", entity.getProperty(Okazu.PRICE), actual.getPrice());
-    assertEquals("モデルのValueの値が一致しません。", entity.getProperty(Okazu.VALUE), actual.getValue());
-    assertEquals("モデルのDayofweekの値が一致しません。", entity.getProperty(Okazu.DAYOFWEEK), actual.getDayofweek());
+    assertThat(actual, is(notNullValue()));
+    assertThat(actual.getLabel(), is(entity.getProperty(Okazu.LABEL)));
+    assertThat(actual.getPrice(), is(entity.getProperty(Okazu.PRICE)));
+    assertThat(actual.getValue(), is(entity.getProperty(Okazu.VALUE)));
+    assertThat(actual.getDayofweek(), is(entity.getProperty(Okazu.DAYOFWEEK)));
   }
 
   @Test
@@ -116,10 +117,11 @@ public class OkazuRepositoryTest {
 
     // 更新後のエンティティを取得して検証
     Okazu actual = repository.read(entity.getKey().getId());
-    assertEquals("更新後のLabelの値が一致しません。", okazu.getLabel(), actual.getLabel());
-    assertEquals("更新後のPriceの値が一致しません。", okazu.getPrice(), actual.getPrice());
-    assertEquals("更新後のValueの値が一致しません。", okazu.getValue(), actual.getValue());
-    assertEquals("モデルのDayofweekの値が一致しません。", okazu.getDayofweek(), actual.getDayofweek());
+    assertThat(actual, is(notNullValue()));
+    assertThat(actual.getLabel(), is(okazu.getLabel()));
+    assertThat(actual.getPrice(), is(okazu.getPrice()));
+    assertThat(actual.getValue(), is(okazu.getValue()));
+    assertThat(actual.getDayofweek(), is(okazu.getDayofweek()));
   }
 
   @Test
@@ -136,14 +138,14 @@ public class OkazuRepositoryTest {
   public void testList() {
     List<Okazu> actual = repository.list();
     
-    assertNotNull("エンティティが１つも取得できませんでした。", actual);
-    assertEquals("取得した件数を一致しません。", 3, actual.size());
+    assertThat(actual, is(notNullValue()));
+    assertThat(actual.size(), is(3));
     
     for (int i = 0; i < testDatas.size(); i++) {
-      assertEquals("モデルのLabelの値が一致しません。", testDatas.get(i).getProperty(Okazu.LABEL), actual.get(i).getLabel());
-      assertEquals("モデルのPriceの値が一致しません。", testDatas.get(i).getProperty(Okazu.PRICE), actual.get(i).getPrice());
-      assertEquals("モデルのValueの値が一致しません。", testDatas.get(i).getProperty(Okazu.VALUE), actual.get(i).getValue());
-      assertEquals("モデルのDayofweekの値が一致しません。", testDatas.get(i).getProperty(Okazu.DAYOFWEEK), actual.get(i).getDayofweek());
+      assertThat(actual.get(i).getLabel(), is(testDatas.get(i).getProperty(Okazu.LABEL)));
+      assertThat(actual.get(i).getPrice(), is(testDatas.get(i).getProperty(Okazu.PRICE)));
+      assertThat(actual.get(i).getValue(), is(testDatas.get(i).getProperty(Okazu.VALUE)));
+      assertThat(actual.get(i).getDayofweek(), is(testDatas.get(i).getProperty(Okazu.DAYOFWEEK)));
     }
   }
 }

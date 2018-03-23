@@ -1,5 +1,7 @@
 package jp.co.esm.bento.web.repository;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -21,7 +23,7 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import jp.co.esm.bento.web.BentoWebApplication;
 import jp.co.esm.bento.web.model.Gohan;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @ContextConfiguration(classes= BentoWebApplication.class)
 @SpringBootTest
 public class GohanRepositoryTest {
@@ -76,10 +78,10 @@ public class GohanRepositoryTest {
     gohan.setValue("takikomi");
     Entity actual = repository.create(gohan);
     
-    assertNotNull("エンティティが作成されませんでした。", actual);
-    assertEquals("エンティティのLabelの値が一致しません。", gohan.getLabel(), actual.getProperty(Gohan.LABEL));
-    assertEquals("エンティティのPriceの値が一致しません。", gohan.getPrice(), actual.getProperty(Gohan.PRICE));
-    assertEquals("エンティティのValueの値が一致しません。", gohan.getValue(), actual.getProperty(Gohan.VALUE));
+    assertThat(actual, is(notNullValue()));
+    assertThat(actual.getProperty(Gohan.LABEL), is(gohan.getLabel()));
+    assertThat(actual.getProperty(Gohan.PRICE), is(gohan.getPrice()));
+    assertThat(actual.getProperty(Gohan.VALUE), is(gohan.getValue()));
   }
 
   @Test
@@ -87,10 +89,10 @@ public class GohanRepositoryTest {
     Entity entity = testDatas.get(0);
     Gohan actual = repository.read(entity.getKey().getId());
     
-    assertNotNull("指定のIDで取得できませんでした。", actual);
-    assertEquals("モデルのLabelの値が一致しません。", entity.getProperty(Gohan.LABEL), actual.getLabel());
-    assertEquals("モデルのPriceの値が一致しません。", entity.getProperty(Gohan.PRICE), actual.getPrice());
-    assertEquals("モデルのValueの値が一致しません。", entity.getProperty(Gohan.VALUE), actual.getValue());
+    assertThat(actual, is(notNullValue()));
+    assertThat(actual.getLabel(), is(entity.getProperty(Gohan.LABEL)));
+    assertThat(actual.getPrice(), is(entity.getProperty(Gohan.PRICE)));
+    assertThat(actual.getValue(), is(entity.getProperty(Gohan.VALUE)));
   }
 
   @Test
@@ -104,9 +106,9 @@ public class GohanRepositoryTest {
 
     // 更新後のエンティティを取得して検証
     Gohan actual = repository.read(entity.getKey().getId());
-    assertEquals("更新後のLabelの値が一致しません。", gohan.getLabel(), actual.getLabel());
-    assertEquals("更新後のPriceの値が一致しません。", gohan.getPrice(), actual.getPrice());
-    assertEquals("更新後のValueの値が一致しません。", gohan.getValue(), actual.getValue());
+    assertThat(actual.getLabel(), is(gohan.getLabel()));
+    assertThat(actual.getPrice(), is(gohan.getPrice()));
+    assertThat(actual.getValue(), is(gohan.getValue()));
   }
 
   @Test
@@ -127,9 +129,9 @@ public class GohanRepositoryTest {
     assertEquals("取得した件数を一致しません。", 2, actual.size());
     
     for (int i = 0; i < testDatas.size(); i++) {
-      assertEquals("モデルのLabelの値が一致しません。", testDatas.get(i).getProperty(Gohan.LABEL), actual.get(i).getLabel());
-      assertEquals("モデルのPriceの値が一致しません。", testDatas.get(i).getProperty(Gohan.PRICE), actual.get(i).getPrice());
-      assertEquals("モデルのValueの値が一致しません。", testDatas.get(i).getProperty(Gohan.VALUE), actual.get(i).getValue());
+      assertThat(actual.get(i).getLabel(), is(testDatas.get(i).getProperty(Gohan.LABEL)));
+      assertThat(actual.get(i).getPrice(), is(testDatas.get(i).getProperty(Gohan.PRICE)));
+      assertThat(actual.get(i).getValue(), is(testDatas.get(i).getProperty(Gohan.VALUE)));
     }
   }
 
