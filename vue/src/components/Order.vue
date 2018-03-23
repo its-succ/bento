@@ -17,10 +17,10 @@
           </thead>
           <tbody>
             <tr
-              v-for="order in orders"
+              v-for="(order,index) in orders"
               :key="order.date">
               <td>{{ order.date }}</td>
-              <td>{{ order.dow }}</td>
+              <td><!-- 曜日をここに --></td>
               <td>
                 <q-select
                   v-model="order.okazu"
@@ -28,7 +28,7 @@
                   color="light-blue"
                   separator
                   :disabled="closed"
-                  :options="options.okazu"
+                  :options="filteredOkazu(index+1)"
                   @change="validate(order)"
                 />
               </td>
@@ -112,7 +112,8 @@ export default {
       initializedOption: {
         label: '（なし）',
         value: '',
-        price: 0
+        price: 0,
+        dayofweek: null
       }
     }
   },
@@ -123,7 +124,7 @@ export default {
     async getOrders (week) {
       try {
         const response = await this.$http.get(`api/orders/${week}`)
-        this.orders = response.data.orders
+        this.orders = response.data
       }
       catch (error) {
         console.error(error)
@@ -143,6 +144,14 @@ export default {
       catch (error) {
         console.error(error)
       }
+    },
+    /**
+     * おかずのリストを曜日でフィルタリングする
+     */
+    filteredOkazu (dayofweek) {
+      return this.options.okazu.filter(function (okazu) {
+        return okazu.dayofweek === null || okazu.dayofweek === dayofweek
+      })
     },
     /**
      * Toastでエラー表示する

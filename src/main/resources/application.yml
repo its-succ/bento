@@ -2,3 +2,7 @@ google:
   auth:
     client-id: 599875423654-67v0atig5nn91to63c2d4a7lmpgi55ns.apps.googleusercontent.com
     hosted-domain: esm.co.jp
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false

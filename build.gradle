@@ -36,6 +36,9 @@ appengine {
   deploy {
     project 'bento-184202'
   }
+  run {
+    jvmFlags = ['-Ddatastore.backing_store="datastore/local_db.bin"']
+  }
 }
 configurations {
   compile.exclude module: 'jul-to-slf4j'
@@ -48,7 +51,10 @@ dependencies {
   compile 'com.google.appengine:appengine-api-1.0-sdk:+'
   compileOnly 'org.projectlombok:lombok'
   compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+  compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.10"
   testCompile 'org.springframework.boot:spring-boot-starter-test'
+  testCompile  "com.google.appengine:appengine-api-stubs:+"
+  testCompile  "com.google.appengine:appengine-testing:+"
 }
 
 node {
