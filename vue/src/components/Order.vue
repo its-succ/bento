@@ -20,7 +20,7 @@
               v-for="(order,index) in orders"
               :key="order.date">
               <td>{{ order.date }}</td>
-              <td><!-- 曜日をここに --></td>
+              <td>{{ order.date | dayofweek }}</td>
               <td>
                 <q-select
                   v-model="order.okazu"
@@ -232,8 +232,8 @@ export default {
         })
         if (item) result += item.price
       })
-      order.total = result
-      return order.total
+      order.price = result
+      return order.price
     },
     /**
      * 支払金額を計算する
@@ -241,7 +241,7 @@ export default {
     payment (orders) {
       let result = 0
       Object.values(orders).forEach(order => {
-        result += order.total
+        result += order.price
       })
       return result
     }
