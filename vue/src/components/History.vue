@@ -18,7 +18,7 @@
         <tbody>
           <tr v-for="order in orders" :key="order.date">
             <td>{{order.date}}</td>
-            <td><!-- 曜日をここに --></td>
+            <td>{{ order.date | dayofweek }}</td>
             <td>{{order.okazu}}</td>
             <td>{{order.gohan}}</td>
             <td>{{order.miso}}</td>
