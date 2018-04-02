@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +38,22 @@ public class OrderController {
     log.info("getOrders");
     log.info("week: {}", week);
     log.info("user: {}", user);
+    return orderService.getOrders(user.getUserId(), week);
+  }
+
+  /**
+   * 指定のユーザと週に該当する注文内容を登録または更新します。
+   * 
+   * @param week 週の日付（月曜日始まり）
+   * @param orders 注文内容
+   * @param user ユーザ
+   * @return 注文内容
+   */
+  @PostMapping("/{week}")
+  public List<Order> updateOrders(@PathVariable LocalDate week, @RequestBody List<Order> orders,@AuthenticationPrincipal GoogleUser user) {
+    // 指定の内容でDatastoreに反映
+    orderService.createOrUpdateOrders(orders, user.getUserId(), week);
+    // 登録結果を返す
     return orderService.getOrders(user.getUserId(), week);
   }
 }

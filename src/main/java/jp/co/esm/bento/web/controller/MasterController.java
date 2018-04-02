@@ -30,7 +30,6 @@ public class MasterController {
   @GetMapping(value = "/load")
   public String setData()
   {
-    log.info("setData");
     masterService.loadData();
     return "OK.";
   }
