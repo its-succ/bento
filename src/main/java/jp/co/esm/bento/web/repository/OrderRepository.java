@@ -80,12 +80,12 @@ public class OrderRepository implements DatastoreRepository<Order> {
   
   /**
    * 指定の条件で注文を最大5件取得します。
+   * 
    * @param userId ユーザID
    * @param week 週の始めの日付
    * @return 取得した結果
    */
-  public List<Order> listByUserIdAndWeek(String userId, LocalDate week)
-  {
+  public List<Order> listByUserIdAndWeek(String userId, LocalDate week) {
     // 週の初めの日付と終わりの日付を取得
     Date fromDate = DateUtil.localDateToDate(week);
     Date toDate = DateUtil.localDateToDate(week.plusDays(4));
@@ -98,6 +98,29 @@ public class OrderRepository implements DatastoreRepository<Order> {
     PreparedQuery preparedQuery = datastore.prepare(query);
     QueryResultIterator<Entity> entities = preparedQuery.asQueryResultIterator();
     return entitiesToModels(entities);
+  }
+  
+  /**
+   * 指定のユーザIDと日付を持つエンティティを取得します。
+   * 
+   * @param userId ユーザID
+   * @param date 注文日
+   * @return 取得した結果
+   */
+  public Order readByUserIdAndDate(String userId, LocalDate date) {
+    Filter userFilter = new FilterPredicate(Order.USER_ID, FilterOperator.EQUAL, userId);
+    Filter dateFilter = new FilterPredicate(Order.DATE, FilterOperator.EQUAL, DateUtil.localDateToDate(date));
+    Query query = new Query(KIND)
+        .setFilter(CompositeFilterOperator.and(userFilter, dateFilter));
+    PreparedQuery preparedQuery = datastore.prepare(query);
+    QueryResultIterator<Entity> entities = preparedQuery.asQueryResultIterator();
+    List<Order> orders = entitiesToModels(entities);
+    if (orders.isEmpty()) {
+      // 注文なし
+      return null;
+    }
+    // TODO 2件以上はないはず
+    return orders.get(0);
   }
 
   /**

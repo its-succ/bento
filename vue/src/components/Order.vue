@@ -2,13 +2,13 @@
   <div class="order">
     <navigation></navigation>
     <div id="content-view">
-      <p class="caption">{{ welcomeMessage }}<br/>
-      {{ user.name }} さんの注文</p>
+      <p class="caption" v-html='welcomeMessage'></p>
+      <p class="caption">{{ user.name }} さんの注文（★：未登録です）</p>
       <form id="form">
         <table class="q-table bordered vertical-separator striped-odd">
           <thead class="bg-primary text-white">
             <tr class="text-center">
-              <th colspan="2" >日付</th>
+              <th colspan="3" >日付</th>
               <th>おかず</th>
               <th>ごはん</th>
               <th>味噌汁</th>
@@ -17,8 +17,9 @@
           </thead>
           <tbody>
             <tr
-              v-for="(order,index) in orders"
+              v-for="order in orders"
               :key="order.date">
+              <td>{{ order.id | status }}</td>
               <td>{{ order.date }}</td>
               <td>{{ order.date | dayofweek }}</td>
               <td>
@@ -28,7 +29,7 @@
                   color="light-blue"
                   separator
                   :disabled="closed"
-                  :options="filteredOkazu(index+1)"
+                  :options="filteredOkazu(order.date)"
                   @change="validate(order)"
                 />
               </td>
@@ -56,13 +57,13 @@
               </td>
             </tr>
             <tr>
-              <td colspan="5" class="text-right">合計</td>
+              <td colspan="6" class="text-right">合計</td>
               <td class="text-right">{{ orders | payment | currency }}</td>
             </tr>
           </tbody>
         </table>
       </form>
-      <div class="layout-padding text-center">
+      <div v-if="this.closed === false" class="layout-padding text-center">
         <q-fixed-position corner="bottom-left" :offset="[18, 18]">
           <q-btn push color="primary" @click="submitOrder()">注文する</q-btn>
         </q-fixed-position>
@@ -84,6 +85,8 @@ import {
   QToggle,
   QBtn
 } from 'quasar'
+import moment from 'moment'
+moment.locale('ja')
 
 export default {
   components: {
@@ -102,7 +105,7 @@ export default {
   },
   data () {
     return {
-      week: '2017-10-16',
+      week: '',
       closed: false,
       orders: [],
       options: {
@@ -125,6 +128,7 @@ export default {
       try {
         const response = await this.$http.get(`api/orders/${week}`)
         this.orders = response.data
+        console.log(response.data)
       }
       catch (error) {
         console.error(error)
@@ -148,7 +152,8 @@ export default {
     /**
      * おかずのリストを曜日でフィルタリングする
      */
-    filteredOkazu (dayofweek) {
+    filteredOkazu (date) {
+      let dayofweek = moment(date).day()
       return this.options.okazu.filter(function (okazu) {
         return okazu.dayofweek === null || okazu.dayofweek === dayofweek
       })
@@ -186,11 +191,21 @@ export default {
      * 入力の内容で注文する
      */
     async submitOrder () {
-      // TODO デモ実装
       Loading.show()
-      setTimeout(() => {
+      try {
+        const response = await this.$http.post(`api/orders/${this.week}`, this.orders)
+        this.orders = response.data
         Loading.hide()
-      }, 3000)
+        Toast.create.positive({
+          html: '注文を受け付けました。'
+        })
+      }
+      catch (error) {
+        console.error(error)
+      }
+      finally {
+        if (Loading.isActive) Loading.hide()
+      }
     },
     /**
      * すべて注文なしで登録する
@@ -200,11 +215,21 @@ export default {
         order.okazu = ''
         order.gohan = ''
         order.miso = false
+        order.price = 0
       })
       this.submitOrder()
     }
   },
   mounted () {
+    let today = moment()
+    // 翌週の月曜の日付
+    this.week = today.add(7, 'days').day(1).format('YYYY-MM-DD')
+    // 0は日曜日をさすため、日曜日から翌週の受付開始となる
+    // 〆日判定（金曜日15時まで）
+    let closingDate = today.day(5).set('hour', 15).set('minute', 0).set('second', 0)
+    this.closed = (today - closingDate > 0)
+
+    // データ取得
     this.getOrders(this.week)
     this.getMasters()
   },
@@ -213,14 +238,24 @@ export default {
      * Welcomeメッセージを取得
      */
     welcomeMessage () {
+      let message = ''
       if (this.closed) {
-        // TODO 締め切っている場合は次の週の受付でもいいような...
-        return this.week + 'の週の注文は締め切りました。追加・変更がある場合は直接管理部へ連絡ください。'
+        message = this.week + 'の週の注文は締め切りました。'
       }
-      return 'ただいま、' + this.week + 'の週の注文を受付中です。'
+      else {
+        message = 'ただいま、' + this.week + 'の週の注文を受付中です。'
+      }
+      return message + '<br/>今週の注文の追加・変更がある場合は直接管理部へ連絡ください。'
     }
   },
   filters: {
+    /**
+     * order.idが未設定の場合は未登録の印を表示する
+     */
+    status (id) {
+      if (id) return ''
+      return '★'
+    },
     /**
      * 指定の注文の金額を計算する
      */

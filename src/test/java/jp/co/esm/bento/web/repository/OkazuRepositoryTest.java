@@ -53,23 +53,23 @@ public class OkazuRepositoryTest {
     // 1件目データ投入
     Okazu okazu = new Okazu();
     okazu.setLabel("愛");
-    okazu.setPrice(new Long(360));
+    okazu.setPrice(360L);
     okazu.setValue("ai");
     testDatas.add(repository.create(okazu));
 
     // 2件目データ投入
     okazu = new Okazu();
     okazu.setLabel("ゆうき");
-    okazu.setPrice(new Long(411));
+    okazu.setPrice(411L);
     okazu.setValue("yuuki");
     testDatas.add(repository.create(okazu));
 
     // 3件目データ投入（曜日あり）
     okazu = new Okazu();
     okazu.setLabel("オムライス");
-    okazu.setPrice(new Long(450));
+    okazu.setPrice(450L);
     okazu.setValue("higawari4");
-    okazu.setDayofweek(new Long(4));
+    okazu.setDayofweek(4L);
     testDatas.add(repository.create(okazu));
   }
 
@@ -83,7 +83,7 @@ public class OkazuRepositoryTest {
   public void testCreate() {
     Okazu okazu = new Okazu();
     okazu.setLabel("日替わり弁当");
-    okazu.setPrice(new Long(380));
+    okazu.setPrice(380L);
     okazu.setValue("higawari0");
     Entity actual = repository.create(okazu);
     

@@ -10,7 +10,6 @@ import lombok.Data;
 
 /**
  * Orderエンティティの内容を保有するモデルクラスです。
- *
  */
 @Data
 public class Order {

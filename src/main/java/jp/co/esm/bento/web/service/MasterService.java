@@ -35,7 +35,6 @@ public class MasterService {
     Master master = new Master();
     master.setOkazu(okazuRepository.list());
     master.setGohan(gohanRepository.list());
-    log.info("master :{}", master);
     return master;
   }
   

@@ -52,14 +52,14 @@ public class GohanRepositoryTest {
     // 1件目データ投入
     Gohan gohan = new Gohan();
     gohan.setLabel("白米");
-    gohan.setPrice(new Long(154));
+    gohan.setPrice(154L);
     gohan.setValue("hakumai");
     testDatas.add(repository.create(gohan));
 
     // 2件目データ投入
     gohan = new Gohan();
     gohan.setLabel("日替わり健康米");
-    gohan.setPrice(new Long(185));
+    gohan.setPrice(185L);
     gohan.setValue("higawari");
     testDatas.add(repository.create(gohan));
   }
@@ -74,7 +74,7 @@ public class GohanRepositoryTest {
   public void testCreate() {
     Gohan gohan = new Gohan();
     gohan.setLabel("たきこみごはん");
-    gohan.setPrice(new Long(108));
+    gohan.setPrice(108L);
     gohan.setValue("takikomi");
     Entity actual = repository.create(gohan);
     
@@ -101,7 +101,7 @@ public class GohanRepositoryTest {
     Gohan gohan = repository.read(entity.getKey().getId());
     
     gohan.setLabel("違うラベル名");
-    gohan.setPrice(new Long(433));
+    gohan.setPrice(433L);
     repository.update(gohan);
 
     // 更新後のエンティティを取得して検証
