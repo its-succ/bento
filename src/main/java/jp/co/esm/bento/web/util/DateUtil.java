@@ -2,6 +2,7 @@ package jp.co.esm.bento.web.util;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.stream.IntStream;
  */
 public class DateUtil {
 
+  static final private String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+  
   /**
    * Date型からLocalDate型へ変換します。
    * @param target Date型の日付
@@ -22,6 +25,30 @@ public class DateUtil {
       return null;
     }
     return target.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+  }
+  
+  /**
+   * yyyy-MM-ddでフォーマットされた日付をLocalDate型へ変換します。
+   * 
+   * @param target yyyy-MM-ddでフォーマットされた日付
+   * @return LocalDate型の日付（変換失敗した場合はnull）
+   */
+  public static LocalDate stringToLocalDate(String target) {
+    return stringToLocalDate(target, DEFAULT_DATE_FORMAT);    
+  }
+  
+  /**
+   * 指定の書式の文字列型日付をLocalDate型へ変換します。
+   * 
+   * @param target　フォーマットされた日付
+   * @param format 書式
+   * @return LocalDate型の日付（変換失敗した場合はnull）
+   */
+  public static LocalDate stringToLocalDate(String target, String format) {
+    if (target == null || target.isEmpty()) {
+      return null;
+    }
+    return LocalDate.parse(target, DateTimeFormatter.ofPattern(format)); 
   }
   
   /**

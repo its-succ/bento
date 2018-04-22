@@ -2,6 +2,11 @@ google:
   auth:
     client-id: 599875423654-67v0atig5nn91to63c2d4a7lmpgi55ns.apps.googleusercontent.com
     hosted-domain: esm.co.jp
+  api:
+    calendar:
+      url: https://www.googleapis.com/calendar/v3/calendars/
+      id: japanese__ja@holiday.calendar.google.com
+      key: 
 spring:
   jackson:
     serialization:

@@ -20,15 +20,15 @@
               v-for="order in orders"
               :key="order.date">
               <td>{{ order.id | status }}</td>
-              <td>{{ order.date }}</td>
-              <td>{{ order.date | dayofweek }}</td>
+              <td v-bind:class="[order.holiday? 'holiday' : '']">{{ order.date }}</td>
+              <td v-bind:class="[order.holiday? 'holiday' : '']">{{ order.date | dayofweek }}</td>
               <td>
                 <q-select
                   v-model="order.okazu"
                   inverted
                   color="light-blue"
                   separator
-                  :disabled="closed"
+                  :disable="closed || order.holiday"
                   :options="filteredOkazu(order.date)"
                   @change="validate(order)"
                 />
@@ -39,7 +39,7 @@
                   inverted
                   color="cyan"
                   separator
-                  :disable="closed"
+                  :disable="closed || order.holiday"
                   :options="options.gohan"
                   @change="validate(order)"
                 />
@@ -48,7 +48,7 @@
                 <q-toggle
                   v-model="order.miso"
                   color="light-green"
-                  :disable="closed"
+                  :disable="closed || order.holiday"
                   :click="validateMiso(order)"
                 />
               </td>
@@ -223,11 +223,11 @@ export default {
   mounted () {
     let today = moment()
     // 翌週の月曜の日付
-    this.week = today.add(7, 'days').day(1).format('YYYY-MM-DD')
+    this.week = today.clone().add(7, 'days').day(1).format('YYYY-MM-DD')
     // 0は日曜日をさすため、日曜日から翌週の受付開始となる
     // 〆日判定（金曜日15時まで）
-    let closingDate = today.day(5).set('hour', 15).set('minute', 0).set('second', 0)
-    this.closed = (today - closingDate > 0)
+    let closingDate = today.clone().day(5).set('hour', 15).set('minute', 0).set('second', 0)
+    this.closed = today.diff(closingDate) > 0
 
     // データ取得
     this.getOrders(this.week)
@@ -285,4 +285,8 @@ export default {
 </script>
 
 <style lang="css">
+  .holiday {
+    color: 'red';
+    font-weight: bold;
+  }
 </style>
