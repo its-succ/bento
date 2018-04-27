@@ -34,7 +34,7 @@ public class CalendarServiceTest {
   public void testGetHolidays_休日なし() {
     LocalDate from = LocalDate.of(2018, 3, 5);
     LocalDate to = LocalDate.of(2018, 3, 9);
-    List<LocalDate> actual = service.GetHolidays(from, to, "http://localhost:8080");
+    List<LocalDate> actual = service.getHolidays(from, to, "http://localhost:8080");
     
     assertThat(actual, is(notNullValue()));
     assertThat(actual.size(), is(0));
@@ -44,7 +44,7 @@ public class CalendarServiceTest {
   public void testGetHolidays_休日あり() {
     LocalDate from = LocalDate.of(2018, 4, 30);
     LocalDate to = LocalDate.of(2018, 5, 4);
-    List<LocalDate> actual = service.GetHolidays(from, to, "http://localhost:8080");
+    List<LocalDate> actual = service.getHolidays(from, to, "http://localhost:8080");
     assertThat(actual, is(notNullValue()));
     assertThat(actual.size(), is(3));
     

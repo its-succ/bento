@@ -76,7 +76,7 @@ public class OrderController {
    */
   private void setHoliday(List<Order> orders, String requestUrl) {
     // Googleの祝日カレンダーより指定範囲の祝日を取得
-    List<LocalDate> holidays = calendarService.GetHolidays(orders.get(0).getDate(), orders.get(4).getDate(), requestUrl);
+    List<LocalDate> holidays = calendarService.getHolidays(orders.get(0).getDate(), orders.get(4).getDate(), requestUrl);
     if (holidays == null || holidays.isEmpty()) {
       return;
     }
