@@ -27,8 +27,8 @@ public class MasterService {
 
   /**
    * 全てのマスタの内容を取得します。
-   * 
-   * @return　取得したマスタの内容
+   *
+   * @return 取得したマスタの内容
    */
   public Master getAllMaster()
   {
@@ -37,7 +37,7 @@ public class MasterService {
     master.setGohan(gohanRepository.list());
     return master;
   }
-  
+
   /**
    * ローカルテスト用
    * マスタを登録します。
@@ -48,7 +48,7 @@ public class MasterService {
     CreateOkazu();
     CreateGohan();
   }
-  
+
   /**
    * ローカルデータストア投入用データ
    */
@@ -73,13 +73,6 @@ public class MasterService {
       model.setLabel("げんき");
       model.setValue("genki");
       model.setPrice(new Long(515));
-      okazuRepository.create(model);
-    }
-    {
-      Okazu model = new Okazu();
-      model.setLabel("応援");
-      model.setValue("ouen");
-      model.setPrice(new Long(360));
       okazuRepository.create(model);
     }
     {
@@ -123,7 +116,7 @@ public class MasterService {
       okazuRepository.create(model);
     }
   }
-  
+
   private void CreateGohan()
   {
     {
