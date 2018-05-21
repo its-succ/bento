@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import jp.co.esm.bento.web.model.CalendarEvent;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * Googleカレンダーのサービスクラスです。
@@ -33,8 +34,8 @@ public class CalendarService {
   private String apiKey;
 
   // フォーマッタ
-  private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-  
+  private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d");
+
   /**
    * 指定範囲の国民の休日をGoogleカレンダーより取得します。
    *
@@ -44,22 +45,24 @@ public class CalendarService {
    * @return 休日が格納されたリスト（ない場合は空）
    */
   public List<LocalDate> getHolidays(LocalDate from, LocalDate to, String requestUrl) {
-    // 休日取得クエリー
-    String timeMin = from.format(formatter) + "T00:00:00Z";
-    String timeMax = to.format(formatter) + "T23:59:59Z";
-    String query = String.format("key=%s&timeMin=%s&timeMax=%s&maxResults=%d&orderBy=startTime&singleEvents=true", apiKey, timeMin, timeMax, 30);
-
-    try {
-      URI url = new URI(calendarUrl + calendarId + "/events?" + query);
+    // 休日カレンダーアクセスURL
+    URI url = UriComponentsBuilder.newInstance()
+              .fromUriString(calendarUrl)
+              .path(calendarId)
+              .path("/events")
+              .queryParam("key", apiKey)
+              .queryParam("timeMin", from.format(formatter) + "T00:00:00Z")
+              .queryParam("timeMax", to.format(formatter) + "T23:59:59Z")
+              .queryParam("maxResults", 30)
+              .queryParam("orderBy", "startTime")
+              .queryParam("singleEvents", "true")
+              .build()
+              .encode()
+              .toUri();
       RequestEntity<?> requestEntity = RequestEntity.get(url).header("Referer", requestUrl).build();
       RestTemplate restTemplate = new RestTemplate();
       // 祝日カレンダーアクセス
       ResponseEntity<CalendarEvent> response = restTemplate.exchange(requestEntity, CalendarEvent.class);
       return response.getBody().getDateList();
-
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    return null;
   }
 }
