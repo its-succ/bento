@@ -15,7 +15,6 @@ import com.google.appengine.api.datastore.TransactionOptions;
 import jp.co.esm.bento.web.model.Order;
 import jp.co.esm.bento.web.repository.OrderRepository;
 import jp.co.esm.bento.web.util.DateUtil;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Orderのサービスクラスです。
@@ -69,12 +68,14 @@ public class OrderService {
       order.setOkazu("");
       order.setMiso(false);
       order.setPrice(0L);
+      order.setHoliday(false);
       results.add(order);
     }
     // 日付でソート
     results.sort(Comparator.comparing(Order::getDate));
     return results;
   }
+  
 
   /**
    * 指定の内容で注文内容をOrderエンティティに登録または更新します。

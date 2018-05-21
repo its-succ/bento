@@ -61,6 +61,7 @@ public class OrderServiceTest {
       assertThat(actual.get(i).getOkazu(), is(""));
       assertThat(actual.get(i).getMiso(), is(false));
       assertThat(actual.get(i).getPrice(), is(new Long(0)));
+      assertThat(actual.get(i).getHoliday(), is(false));
     });
   }
 
@@ -86,6 +87,7 @@ public class OrderServiceTest {
       assertThat(actual.get(i).getOkazu(), is(""));
       assertThat(actual.get(i).getMiso(), is(false));
       assertThat(actual.get(i).getPrice(), is(new Long(0)));
+      assertThat(actual.get(i).getHoliday(), is(false));
     });
     
     // 月、水、木はダミーデータであること
@@ -128,9 +130,10 @@ public class OrderServiceTest {
       order.setMiso(true);
       order.setPrice(new Long(400+i));
       order.setUserId(userId);
+      order.setHoliday(false);
       results.add(order);
     }
     return results;
   }
-  
+ 
 }
