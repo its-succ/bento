@@ -2,6 +2,7 @@ package jp.co.esm.bento.web.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -27,10 +28,10 @@ public class OrderService {
 
   @Autowired
   private DatastoreService datastore;
-  
+
   /**
    * 指定のユーザの指定の週の5日分の注文内容を取得します。
-   * 
+   *
    * @param userId ユーザID
    * @param week 週の初めの日付
    * @return 該当する注文すべて（最大5件）
@@ -39,16 +40,14 @@ public class OrderService {
   {
     List<Order> results = orderRepository.listByUserIdAndWeek(userId, week);
     if (results.isEmpty() || results.size() < 5) {
-      // TODO 5日分の注文がない場合
       results = createDefaultOrders(results, userId, week);
     }
     return results;
   }
-  
+
   /**
-   * TODO クライアント側にお任せするならいらない
    * 指定の内容で5日分のデフォルト注文を返します。
-   * 
+   *
    * @param orders DBに保存されている注文内容
    * @param userId ユーザID
    * @param week 週の初めの日付
@@ -57,6 +56,10 @@ public class OrderService {
   private List<Order> createDefaultOrders(List<Order> orders, String userId, LocalDate week) {
     List<Order> results = new ArrayList<>(orders);
     List<LocalDate> listDate = DateUtil.weekDate(week);
+
+    if (isNotOrder(orders, week)) {
+      return Collections.emptyList();
+    }
     for (LocalDate date : listDate) {
       if (orders.stream().anyMatch(o -> o.getDate().equals(date))) {
         continue;
@@ -75,11 +78,10 @@ public class OrderService {
     results.sort(Comparator.comparing(Order::getDate));
     return results;
   }
-  
 
   /**
    * 指定の内容で注文内容をOrderエンティティに登録または更新します。
-   * 
+   *
    * @param orders 注文内容（最大5件）
    * @param userId ユーザID
    * @param week 週の初めの日付
@@ -88,7 +90,7 @@ public class OrderService {
     TransactionOptions options = TransactionOptions.Builder.withXG(true);
     Transaction transaction = datastore.beginTransaction(options);
     try {
-      
+
       for (Order order : orders) {
         // 注文なしかどうか
         boolean noOrder = isNoOrder(order);
@@ -111,6 +113,13 @@ public class OrderService {
           orderRepository.update(result);
         }
       }
+      if (orders.stream().allMatch(o -> isNoOrder(o))) {
+        // すべて注文なしの場合は「注文しない」とみなす
+        Order order = new Order();
+        order.setDate(week);
+        order.setUserId(userId);
+        orderRepository.create(order);
+      }
       transaction.commit();
 
     } finally {
@@ -119,7 +128,31 @@ public class OrderService {
       }
     }
   }
-  
+
+  /**
+   * 「この週は注文しない」状態かどうかを返します。
+   * 空の注文が1件のみある場合は注文しないとします。
+   *
+   * @param orders 注文内容
+   * @param week 週の初めの日付
+   * @return
+   */
+  private boolean isNotOrder(List<Order> orders, LocalDate week) {
+    if (orders.isEmpty()) {
+      // 未登録の場合は対象外
+      return false;
+    }
+    if (orders.size() > 1) {
+      // 2件以上注文があれば対象外
+      return false;
+    }
+    Order order = orders.get(0);
+    if (order.getDate().equals(week)) {
+      return isNoOrder(order);
+    }
+    return false;
+  }
+
   /**
    * 対象の注文が空かどうかチェックします。
    * @param order 注文内容

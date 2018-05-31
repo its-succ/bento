@@ -5,71 +5,81 @@
       <p class="caption" v-html='welcomeMessage'></p>
       <p class="caption">{{ user.name }} さんの注文（★：未登録です）</p>
       <form id="form">
-        <table class="q-table bordered vertical-separator striped-odd">
-          <thead class="bg-primary text-white">
-            <tr class="text-center">
-              <th colspan="3" >日付</th>
-              <th>おかず</th>
-              <th>ごはん</th>
-              <th>味噌汁</th>
-              <th>値段</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="order in orders"
-              :key="order.date">
-              <td>{{ order.id | status }}</td>
-              <td v-bind:class="[order.holiday? 'holiday' : '']">{{ order.date }}</td>
-              <td v-bind:class="[order.holiday? 'holiday' : '']">{{ order.date | dayofweek }}</td>
-              <td>
-                <q-select
-                  v-model="order.okazu"
-                  inverted
-                  color="light-blue"
-                  separator
-                  :disable="closed || order.holiday"
-                  :options="filteredOkazu(order.date)"
-                  @change="validate(order)"
-                />
-              </td>
-              <td>
-                <q-select
-                  v-model="order.gohan"
-                  inverted
-                  color="cyan"
-                  separator
-                  :disable="closed || order.holiday"
-                  :options="options.gohan"
-                  @change="validate(order)"
-                />
-              </td>
-              <td>
-                <q-toggle
-                  v-model="order.miso"
-                  color="light-green"
-                  :disable="closed || order.holiday"
-                  :click="validateMiso(order)"
-                />
-              </td>
-              <td class="text-right">
-                {{ order | total(options) | currency }}
-              </td>
-            </tr>
-            <tr>
-              <td colspan="6" class="text-right">合計</td>
-              <td class="text-right">{{ orders | payment | currency }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div v-if="orders.length === 0">この週はいりません。</div>
+        <div v-else>
+          <table class="q-table bordered vertical-separator striped-odd">
+            <thead class="bg-primary text-white">
+              <tr class="text-center">
+                <th colspan="3" >日付</th>
+                <th>おかず</th>
+                <th>ごはん</th>
+                <th>味噌汁</th>
+                <th>値段</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="order in orders"
+                :key="order.date">
+                <td>{{ order.id | status }}</td>
+                <td v-bind:class="[order.holiday? 'holiday' : '']">{{ order.date }}</td>
+                <td v-bind:class="[order.holiday? 'holiday' : '']">{{ order.date | dayofweek }}</td>
+                <td>
+                  <q-select
+                    v-model="order.okazu"
+                    inverted
+                    color="light-blue"
+                    separator
+                    :disable="closed || order.holiday"
+                    :options="filteredOkazu(order.date)"
+                    @change="validate(order)"
+                  />
+                </td>
+                <td>
+                  <q-select
+                    v-model="order.gohan"
+                    inverted
+                    color="cyan"
+                    separator
+                    :disable="closed || order.holiday"
+                    :options="options.gohan"
+                    @change="validate(order)"
+                  />
+                </td>
+                <td>
+                  <q-toggle
+                    v-model="order.miso"
+                    color="light-green"
+                    :disable="closed || order.holiday"
+                    :click="validateMiso(order)"
+                  />
+                </td>
+                <td class="text-right">
+                  {{ order | total(options) | currency }}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6" class="text-right">合計</td>
+                <td class="text-right">{{ orders | payment | currency }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </form>
-      <div v-if="this.closed === false" class="layout-padding text-center">
-        <q-fixed-position corner="bottom-left" :offset="[18, 18]">
-          <q-btn push color="primary" @click="submitOrder()">注文する</q-btn>
-        </q-fixed-position>
-        <q-fixed-position corner="bottom-right" :offset="[18, 18]">
-          <q-btn push color="secondary" @click="noOrder()">この週はいりません</q-btn>
-        </q-fixed-position>
+      <div v-if="this.closed === false">
+        <div v-if="orders.length > 0" class="layout-padding text-center">
+          <q-fixed-position corner="bottom-left" :offset="[18, 18]">
+            <q-btn push color="primary" @click="submitOrder('注文を受け付けました。')">注文する</q-btn>
+          </q-fixed-position>
+          <q-fixed-position corner="bottom-right" :offset="[18, 18]">
+            <q-btn push color="secondary" @click="noOrder()">この週はいりません</q-btn>
+          </q-fixed-position>
+        </div>
+        <div v-else class="layout-padding text-center">
+          <q-fixed-position corner="bottom-left" :offset="[18, 18]">
+            <q-btn push color="primary" @click="cancelNotOrder()">やっぱり注文する</q-btn>
+          </q-fixed-position>
+        </div>
       </div>
     </div>
   </div>
@@ -190,14 +200,14 @@ export default {
     /**
      * 入力の内容で注文する
      */
-    async submitOrder () {
+    async submitOrder (message) {
       Loading.show()
       try {
         const response = await this.$http.post(`api/orders/${this.week}`, this.orders)
         this.orders = response.data
         Loading.hide()
         Toast.create.positive({
-          html: '注文を受け付けました。'
+          html: message
         })
       }
       catch (error) {
@@ -217,7 +227,27 @@ export default {
         order.miso = false
         order.price = 0
       })
-      this.submitOrder()
+      this.submitOrder('注文なしで受け付けました。')
+    },
+    /**
+     * 注文しないから注文できる状態にする
+     */
+    cancelNotOrder () {
+      this.orders = []
+      let orderDate = moment(this.week, 'YYYY-MM-DD')
+      const days = [0, 1, 1, 1, 1]
+      days.map(i => {
+        let order = {
+          id: null,
+          date: orderDate.add(i, 'days').format('YYYY-MM-DD'),
+          okazu: '',
+          gohan: '',
+          miso: false,
+          price: 0
+        }
+        this.orders.push(order)
+      })
+      console.error(this.orders)
     }
   },
   mounted () {
@@ -240,12 +270,12 @@ export default {
     welcomeMessage () {
       let message = ''
       if (this.closed) {
-        message = this.week + 'の週の注文は締め切りました。'
+        message = this.week + 'の週の注文は締め切りました。<br/>'
       }
       else {
-        message = 'ただいま、' + this.week + 'の週の注文を受付中です。'
+        message = 'ただいま、' + this.week + 'の週の注文を受付中です。<br/>今週の'
       }
-      return message + '<br/>今週の注文の追加・変更がある場合は直接管理部へ連絡ください。'
+      return message + '注文の追加・変更がある場合は直接管理部へ連絡ください。'
     }
   },
   filters: {
