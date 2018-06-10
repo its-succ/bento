@@ -93,7 +93,7 @@ public class OrderService {
 
       for (Order order : orders) {
         // 注文なしかどうか
-        boolean noOrder = isNoOrder(order);
+        boolean noOrder = order.noOrder();
         // 対象の注文が登録済みか
         Order result = orderRepository.readByUserIdAndDate(userId, order.getDate());
         if (result == null) {
@@ -113,7 +113,7 @@ public class OrderService {
           orderRepository.update(result);
         }
       }
-      if (orders.stream().allMatch(o -> isNoOrder(o))) {
+      if (orders.stream().allMatch(o -> o.noOrder())) {
         // すべて注文なしの場合は「注文しない」とみなす
         Order order = new Order();
         order.setDate(week);
@@ -148,28 +148,8 @@ public class OrderService {
     }
     Order order = orders.get(0);
     if (order.getDate().equals(week)) {
-      return isNoOrder(order);
+      return order.noOrder();
     }
     return false;
-  }
-
-  /**
-   * 対象の注文が空かどうかチェックします。
-   * @param order 注文内容
-   * @return 注文なしの場合はtrue、ありの場合はfalse
-   */
-  private boolean isNoOrder(Order order) {
-    // おかずチェック
-    if (order.getOkazu() != null &&
-        !order.getOkazu().isEmpty()) {
-        return false;
-    }
-    // ごはんチェック
-    if (order.getGohan() != null &&
-        !order.getGohan().isEmpty()) {
-      return false;
-    }
-    // おかず・ごはんなしで味噌汁ありはないのでチェックしない
-    return true;
   }
 }

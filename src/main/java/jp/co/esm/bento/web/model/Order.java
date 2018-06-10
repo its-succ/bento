@@ -2,6 +2,7 @@ package jp.co.esm.bento.web.model;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import com.google.appengine.api.datastore.Entity;
 
@@ -16,28 +17,28 @@ public class Order {
 
   // ID
   private Long id;
-  
+
   // 日付(yyyy-mm-dd)
   private LocalDate date;
-  
+
   // ごはんマスタの値
   private String gohan;
-  
+
   // 味噌汁有無
   private Boolean miso;
-  
+
   // おかずマスタの値
   private String okazu;
-  
+
   // ユーザID
   private String userId;
-  
+
   // 値段
   private Long price;
-  
+
   // 祝日かどうか
   private Boolean holiday;
-  
+
   // プロパティ名：ID
   public static final String ID = "id";
   // プロパティ名：date
@@ -54,7 +55,7 @@ public class Order {
   public static final String PRICE = "price";
   // プロパティ名：holiday
   public static final String HOLIDAY = "holiday";
-  
+
   /**
    * 指定のエンティティの内容をモデルに設定します。
    * @param entity エンティティ
@@ -70,7 +71,7 @@ public class Order {
     this.price = (Long)entity.getProperty(PRICE);
     this.holiday = Boolean.FALSE;
   }
-  
+
   /**
    * モデルの内容を指定のエンティティに設定します。
    * @param entity エンティティ
@@ -85,4 +86,22 @@ public class Order {
     entity.setProperty(USER_ID, userId);
     entity.setProperty(PRICE, price);
   }
-}
+
+  /**
+   * 注文が空かどうかチェックします。
+   * @return 注文なしの場合はtrue、ありの場合はfalse
+   */
+  public boolean noOrder() {
+    // おかずチェック
+    if (okazu != null &&
+      !okazu.isEmpty()) {
+      return false;
+    }
+    // ごはんチェック
+    if (gohan != null &&
+      !gohan.isEmpty()) {
+      return false;
+    }
+    // おかず・ごはんなしで味噌汁ありはないのでチェックしない
+    return true;
+  }}
