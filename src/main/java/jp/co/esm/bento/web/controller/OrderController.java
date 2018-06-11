@@ -28,14 +28,14 @@ public class OrderController {
   // 注文サービス
   @Autowired
   private OrderService orderService;
-  
+
   // googleカレンダーサービス
   @Autowired
   private CalendarService calendarService;
 
   /**
    * 指定のユーザと週に該当する注文内容を取得します。
-   * 
+   *
    * @param week 週の日付（月曜日始まり）
    * @param user ユーザ
    * @return 注文内容
@@ -54,27 +54,34 @@ public class OrderController {
 
   /**
    * 指定のユーザと週に該当する注文内容を登録または更新します。
-   * 
+   *
    * @param week 週の日付（月曜日始まり）
    * @param orders 注文内容
    * @param user ユーザ
    * @return 注文内容
    */
   @PostMapping("/{week}")
-  public List<Order> updateOrders(@PathVariable LocalDate week, @RequestBody List<Order> orders,@AuthenticationPrincipal GoogleUser user) {
+  public List<Order> updateOrders(@PathVariable LocalDate week, @RequestBody List<Order> orders,@AuthenticationPrincipal GoogleUser user, HttpServletRequest request) {
     // 指定の内容でDatastoreに反映
     orderService.createOrUpdateOrders(orders, user.getUserId(), week);
     // 登録結果を返す
-    return orderService.getOrders(user.getUserId(), week);
+    List<Order> results = orderService.getOrders(user.getUserId(), week);
+    // 休日情報を設定
+    setHoliday(results, request.getRequestURL().toString());
+    return results;
   }
 
   /**
    * 指定の注文内容の注文日に対して休日かどうかを設定します。
-   * 
+   *
    * @param orders 注文内容
    * @param requestUrl リクエストURL(認証で使用）
    */
   private void setHoliday(List<Order> orders, String requestUrl) {
+    if (orders.isEmpty()) {
+      return;
+    }
+
     // Googleの祝日カレンダーより指定範囲の祝日を取得
     List<LocalDate> holidays = calendarService.getHolidays(orders.get(0).getDate(), orders.get(4).getDate(), requestUrl);
     if (holidays == null || holidays.isEmpty()) {
