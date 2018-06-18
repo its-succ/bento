@@ -52,6 +52,15 @@ export default {
     if (isSignedIn) {
       this.onSignedIn(await auth.getCurrentUser())
     }
+    this.$http.interceptors.response.use(
+      response => {
+      },
+      error => {
+        if (error.response.status === 401) {
+          this.signOut()
+        }
+      }
+    )
   }
 }
 </script>
