@@ -18,7 +18,8 @@
     "vue": "^2.5.2",
     "vue-axios": "^2.0.2",
     "vue-router": "^2.7.0",
-    "moment": "^2.15.2"
+    "moment": "^2.15.2",
+    "vuelidate": "^0.7.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
