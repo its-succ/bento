@@ -2,7 +2,6 @@ package jp.co.esm.bento.web.controller;
 
 import jp.co.esm.bento.web.model.Gohan;
 import jp.co.esm.bento.web.model.Okazu;
-import jp.co.esm.bento.web.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,7 @@ public class MasterController {
    * @param Okazus おかずマスタ
    * @return 更新後のおかずマスタ
    */
-  @PostMapping(value="/okazu/update")
+  @PutMapping(value="/okazu")
   public List<Okazu> UpdateOkazu(@RequestBody List<Okazu> Okazus) {
     // TODO 実装すること
     return Collections.emptyList();
@@ -47,7 +46,7 @@ public class MasterController {
    * @param gohans ごはんマスタ
    * @return 更新後のごはんマスタ
    */
-  @PostMapping(value="/gohan/update")
+  @PutMapping(value="/gohan")
   public List<Gohan> UpdateGohan(@RequestBody List<Gohan> gohans) {
     // TODO 実装すること
     return Collections.emptyList();

@@ -111,7 +111,7 @@ export default {
         gohan: []
       },
       dayofweek_options: [
-        { label: '', value: null },
+        { label: '指定なし', value: null },
         { label: '月', value: 1 },
         { label: '火', value: 2 },
         { label: '水', value: 3 },
@@ -222,7 +222,7 @@ export default {
       }
       Loading.show()
       try {
-        const response = await this.$http.post(`api/masters/${this.kind}/update`, this.masters[this.kind])
+        const response = await this.$http.put(`api/masters/${this.kind}`, this.masters[this.kind])
         this.masters[this.kind] = response.data
         Loading.hide()
         Toast.create.positive({
