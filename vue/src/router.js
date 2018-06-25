@@ -5,6 +5,7 @@ import Login from '@/Login.vue'
 import History from '@/History.vue'
 import Order from '@/Order.vue'
 import Ordering from '@/Ordering.vue'
+import Master from '@/Master.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,7 @@ export default new VueRouter({
     { path: '/login', name: 'login', component: Login },
     { path: '/history', name: 'history', component: History, props: true, meta: { requireAuth: true } },
     { path: '/order', name: 'order', component: Order, props: true, meta: { requireAuth: true } },
-    { path: '/ordering', name: 'ordering', component: Ordering, props: true }
+    { path: '/ordering', name: 'ordering', component: Ordering, props: true },
+    { path: '/master', name: 'master', component: Master, props: true, meta: { requireAuth: true } }
   ]
 })

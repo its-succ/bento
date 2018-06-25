@@ -1,13 +1,16 @@
 package jp.co.esm.bento.web.controller;
 
+import jp.co.esm.bento.web.model.Gohan;
+import jp.co.esm.bento.web.model.Okazu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jp.co.esm.bento.web.model.Master;
 import jp.co.esm.bento.web.service.MasterService;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -17,7 +20,7 @@ public class MasterController {
   // マスタサービス
   @Autowired
   private MasterService masterService;
-  
+
   /**
    * すべてのマスタを取得します。
    * @return
@@ -26,7 +29,29 @@ public class MasterController {
   public Master getAll() {
     return masterService.getAllMaster();
   }
- 
+
+  /**
+   * 指定の内容でおかずマスタを更新します。
+   * @param Okazus おかずマスタ
+   * @return 更新後のおかずマスタ
+   */
+  @PutMapping(value="/okazu")
+  public List<Okazu> UpdateOkazu(@RequestBody List<Okazu> Okazus) {
+    // TODO 実装すること
+    return Collections.emptyList();
+  }
+
+  /**
+   * 指定の内容でごはんマスタを更新します。
+   * @param gohans ごはんマスタ
+   * @return 更新後のごはんマスタ
+   */
+  @PutMapping(value="/gohan")
+  public List<Gohan> UpdateGohan(@RequestBody List<Gohan> gohans) {
+    // TODO 実装すること
+    return Collections.emptyList();
+  }
+
   @GetMapping(value = "/load")
   public String setData()
   {

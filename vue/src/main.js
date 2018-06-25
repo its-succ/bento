@@ -29,6 +29,9 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 /* filters */
 import * as filters from 'filters'
 Object.keys(filters).forEach(key => {
