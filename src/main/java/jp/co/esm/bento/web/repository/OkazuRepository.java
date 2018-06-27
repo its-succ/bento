@@ -32,7 +32,7 @@ public class OkazuRepository implements DatastoreRepository<Okazu> {
 
   /**
    * 指定の内容でOkazuエンティティを追加します。
-   * 
+   *
    * @param model 作成内容
    * @return 作成したエンティティ
    */
@@ -40,9 +40,6 @@ public class OkazuRepository implements DatastoreRepository<Okazu> {
   public Entity create(Okazu model) {
     Entity entity = new Entity(KIND);
     model.convert(entity);
-    if (model.getDayofweek() != null) {
-      entity.setProperty(Okazu.DAYOFWEEK, model.getDayofweek());
-    }
     datastore.put(entity);
     return entity;
   }
@@ -55,7 +52,7 @@ public class OkazuRepository implements DatastoreRepository<Okazu> {
     } catch (EntityNotFoundException e) {
         return null;
     }
-    return entityToModel(entity);  
+    return entityToModel(entity);
   }
 
   @Override
@@ -63,7 +60,7 @@ public class OkazuRepository implements DatastoreRepository<Okazu> {
     Key key = KeyFactory.createKey(KIND, model.getId());
     Entity entity = new Entity(key);
     model.convert(entity);
-    datastore.put(entity);  
+    datastore.put(entity);
   }
 
   @Override
@@ -86,12 +83,12 @@ public class OkazuRepository implements DatastoreRepository<Okazu> {
     okazu.setProperties(entity);
     return okazu;
   }
-  
+
   private List<Okazu> entitiesToModels(Iterator<Entity> entities) {
     List<Okazu> results = new ArrayList<>();
     while (entities.hasNext()) {
       results.add(entityToModel(entities.next()));
     }
-    return results;  
+    return results;
   }
 }

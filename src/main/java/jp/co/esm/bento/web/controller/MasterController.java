@@ -32,13 +32,15 @@ public class MasterController {
 
   /**
    * 指定の内容でおかずマスタを更新します。
-   * @param Okazus おかずマスタ
+   * @param okazus おかずマスタ
    * @return 更新後のおかずマスタ
    */
   @PutMapping(value="/okazu")
-  public List<Okazu> UpdateOkazu(@RequestBody List<Okazu> Okazus) {
-    // TODO 実装すること
-    return Collections.emptyList();
+  public List<Okazu> UpdateOkazu(@RequestBody List<Okazu> okazus) {
+    log.info("UpdateOkazu");
+    log.info("okazu: {}", okazus);
+    masterService.createOrUpdateOkazu(okazus);
+    return masterService.getAllOkazus();
   }
 
   /**
@@ -48,8 +50,10 @@ public class MasterController {
    */
   @PutMapping(value="/gohan")
   public List<Gohan> UpdateGohan(@RequestBody List<Gohan> gohans) {
-    // TODO 実装すること
-    return Collections.emptyList();
+    log.info("UpdateGohan");
+    log.info("gohan: {}", gohans);
+    masterService.createOrUpdateGohan(gohans);
+    return masterService.getAllGohans();
   }
 
   @GetMapping(value = "/load")

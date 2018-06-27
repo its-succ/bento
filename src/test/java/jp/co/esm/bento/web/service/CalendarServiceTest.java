@@ -9,19 +9,24 @@ import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+/**
+ * APIキーを記載できないためこのテストはスキップ
+ */
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CalendarServiceTest {
 
   @Autowired
   private CalendarService service;
-  
+
   @Before
   public void setUp() throws Exception {
   }
@@ -35,7 +40,7 @@ public class CalendarServiceTest {
     LocalDate from = LocalDate.of(2018, 3, 5);
     LocalDate to = LocalDate.of(2018, 3, 9);
     List<LocalDate> actual = service.getHolidays(from, to, "http://localhost:8080");
-    
+
     assertThat(actual, is(notNullValue()));
     assertThat(actual.size(), is(0));
   }
@@ -47,7 +52,7 @@ public class CalendarServiceTest {
     List<LocalDate> actual = service.getHolidays(from, to, "http://localhost:8080");
     assertThat(actual, is(notNullValue()));
     assertThat(actual.size(), is(3));
-    
+
     assertThat(actual.get(0), is(LocalDate.of(2018, 4, 30)));
     assertThat(actual.get(1), is(LocalDate.of(2018, 5, 3)));
     assertThat(actual.get(2), is(LocalDate.of(2018, 5, 4)));
