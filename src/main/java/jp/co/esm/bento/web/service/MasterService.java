@@ -95,7 +95,7 @@ public class MasterService {
       okazus.stream().filter(o -> o.getId() != null).forEach(target -> {
         // 現在のマスタと差分があれば更新
         current.stream().filter(m -> Objects.equals(m.getValue(), target.getValue())).forEach(c -> {
-          if (c.isModified(target)) {
+          if (!c.equals(target)) {
             okazuRepository.update(target);
           }
         });
@@ -150,7 +150,7 @@ public class MasterService {
       gohans.stream().filter(o -> o.getId() != null).forEach(target -> {
         // 現在のマスタと差分があれば更新
         current.stream().filter(m -> Objects.equals(m.getValue(), target.getValue())).forEach(c -> {
-          if (c.isModified(target)) {
+          if (!c.equals(target)) {
             gohanRepository.update(target);
           }
         });

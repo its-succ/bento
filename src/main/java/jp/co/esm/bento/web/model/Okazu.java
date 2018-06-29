@@ -3,6 +3,7 @@ package jp.co.esm.bento.web.model;
 import com.google.appengine.api.datastore.Entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Objects;
@@ -11,6 +12,7 @@ import java.util.Objects;
  * Okazuエンティティの内容を保有するモデルクラスです。
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper=true)
 public class Okazu extends AbstractMaster {
 
@@ -43,16 +45,5 @@ public class Okazu extends AbstractMaster {
     if (dayofweek != null) {
       entity.setProperty(DAYOFWEEK, dayofweek);
     }
-  }
-
-  /**
-   * 指定のマスタの内容と差分があるかどうか返します。
-   *
-   * @param target 対象マスタ
-   * @return true - 差分あり, false - 差分なし
-   */
-  public boolean isModified(Okazu target) {
-    return super.isModified(target) ||
-           !Objects.equals(dayofweek, target.getDayofweek());
   }
 }

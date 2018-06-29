@@ -218,12 +218,12 @@ public class MasterServiceTest {
 
     List<Okazu> targets = demoOkazuData();
     // ID=2を削除
-    targets.removeIf(okazu -> okazu.getId() == 2L);
+    targets.removeIf(okazu -> okazu.getId().equals(10002L));
     service.createOrUpdateOkazu(targets);
 
     verify(okazuRepository, never()).create(anyObject());
     verify(okazuRepository, never()).update(anyObject());
-    verify(okazuRepository, times(1)).delete(2L);
+    verify(okazuRepository, times(1)).delete(10002L);
   }
 
 
@@ -237,8 +237,8 @@ public class MasterServiceTest {
     // 1つめを更新
     Okazu updated = targets.get(0);
     updated.setLabel("updated");
-    // ID=2を削除
-    targets.removeIf(target -> target.getId().equals(2L));
+    // ID=20002を削除
+    targets.removeIf(target -> target.getId().equals(10002L));
     Okazu added = new Okazu() {{
       label = "追加";
       value = "tuika";
@@ -250,7 +250,7 @@ public class MasterServiceTest {
 
     verify(okazuRepository, times(1)).create(added);
     verify(okazuRepository, times(1)).update(updated);
-    verify(okazuRepository, times(1)).delete(2L);
+    verify(okazuRepository, times(1)).delete(10002L);
   }
 
   @Test
@@ -335,14 +335,14 @@ public class MasterServiceTest {
       .when(gohanRepository).list();
 
     List<Gohan> targets = demoGohanData();
-    // ID=2を削除
-    targets.removeIf(gohan -> gohan.getId() == 2L);
+    // ID=20002を削除
+    targets.removeIf(gohan -> gohan.getId().equals(20002L));
 
     service.createOrUpdateGohan(targets);
 
     verify(gohanRepository, never()).create(anyObject());
     verify(gohanRepository, never()).update(anyObject());
-    verify(gohanRepository, times(1)).delete(2L);
+    verify(gohanRepository, times(1)).delete(20002L);
   }
 
 
@@ -357,7 +357,7 @@ public class MasterServiceTest {
     Gohan updated = targets.get(0);
     updated.setLabel("updated");
     // ID=2を削除
-    targets.removeIf(gohan -> gohan.getId() == 2L);
+    targets.removeIf(gohan -> gohan.getId().equals(20002L));
     Gohan added = new Gohan() {{
       label = "追加";
       value = "tuika";
@@ -369,7 +369,7 @@ public class MasterServiceTest {
 
     verify(gohanRepository, times(1)).create(added);
     verify(gohanRepository, times(1)).update(updated);
-    verify(gohanRepository, times(1)).delete(2L);
+    verify(gohanRepository, times(1)).delete(20002L);
   }
 
   /**
@@ -381,7 +381,7 @@ public class MasterServiceTest {
     List<Okazu> results = new ArrayList<>();
     // 1件目データ投入（曜日あり）
     Okazu okazu = new Okazu();
-    okazu.setId(1L);
+    okazu.setId(10001L);
     okazu.setLabel("オムライス");
     okazu.setPrice(450L);
     okazu.setValue("higawari4");
@@ -390,7 +390,7 @@ public class MasterServiceTest {
 
     // 2件目データ投入
     okazu = new Okazu();
-    okazu.setId(2L);
+    okazu.setId(10002L);
     okazu.setLabel("ゆうき");
     okazu.setPrice(411L);
     okazu.setValue("yuuki");
@@ -398,7 +398,7 @@ public class MasterServiceTest {
 
     // 3件目データ投入
     okazu = new Okazu();
-    okazu.setId(3L);
+    okazu.setId(10003L);
     okazu.setLabel("愛");
     okazu.setPrice(360L);
     okazu.setValue("ai");
@@ -412,7 +412,7 @@ public class MasterServiceTest {
 
     // 1件目データ投入
     Gohan gohan = new Gohan();
-    gohan.setId(1L);
+    gohan.setId(20001L);
     gohan.setLabel("日替わり健康米");
     gohan.setPrice(185L);
     gohan.setValue("higawari");
@@ -420,7 +420,7 @@ public class MasterServiceTest {
 
     // 2件目データ投入
     gohan = new Gohan();
-    gohan.setId(2L);
+    gohan.setId(20002L);
     gohan.setLabel("白米");
     gohan.setPrice(154L);
     gohan.setValue("hakumai");
