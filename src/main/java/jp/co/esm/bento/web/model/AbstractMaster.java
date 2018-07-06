@@ -42,7 +42,10 @@ public abstract class AbstractMaster {
     this.id = entity.getKey().getId();
     this.label = (String)entity.getProperty(LABEL);
     this.value = (String)entity.getProperty(VALUE);
-    this.price = (Long)entity.getProperty(PRICE);
+    Object price = entity.getProperty(PRICE);
+    if (Objects.nonNull(price)) {
+      this.price = Long.valueOf(price.toString());
+    }
   }
 
   /**

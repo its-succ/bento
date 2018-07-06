@@ -31,7 +31,10 @@ public class Okazu extends AbstractMaster {
     super.setProperties(entity);
     dayofweek = null;
     if (entity.hasProperty(DAYOFWEEK)) {
-      dayofweek = (Long) entity.getProperty(DAYOFWEEK);
+      Object week = entity.getProperty(DAYOFWEEK);
+      if (Objects.nonNull(week)) {
+        dayofweek = Long.valueOf(week.toString());
+      }
     }
   }
 

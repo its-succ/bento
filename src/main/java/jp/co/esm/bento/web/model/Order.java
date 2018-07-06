@@ -3,6 +3,7 @@ package jp.co.esm.bento.web.model;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import com.google.appengine.api.datastore.Entity;
 
@@ -68,7 +69,10 @@ public class Order {
     this.miso = (Boolean)entity.getProperty(MISO);
     this.okazu = (String)entity.getProperty(OKAZU);
     this.userId = (String)entity.getProperty(USER_ID);
-    this.price = (Long)entity.getProperty(PRICE);
+    Object p = entity.getProperty(PRICE);
+    if (Objects.nonNull(p)) {
+      this.price = Long.valueOf(p.toString());
+    }
     this.holiday = Boolean.FALSE;
   }
 
