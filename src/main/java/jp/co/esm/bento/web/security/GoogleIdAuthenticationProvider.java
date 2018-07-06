@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
-import com.google.appengine.repackaged.com.google.api.client.extensions.appengine.http.UrlFetchTransport;
-import com.google.appengine.repackaged.com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.appengine.repackaged.com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.appengine.repackaged.com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import jp.co.esm.bento.web.model.GoogleUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
