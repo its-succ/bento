@@ -4,21 +4,23 @@ import com.google.appengine.api.datastore.Entity;
 
 import lombok.Data;
 
+import java.util.Objects;
+
 /**
- * マスタの基底クラス 
+ * マスタの基底クラス
  */
 @Data
 public abstract class AbstractMaster {
 
   // ID
   protected Long id;
-  
+
   // 名称
   protected String label;
-  
+
   // 値
   protected String value;
-  
+
   // 値段
   protected Long price;
 
@@ -40,9 +42,12 @@ public abstract class AbstractMaster {
     this.id = entity.getKey().getId();
     this.label = (String)entity.getProperty(LABEL);
     this.value = (String)entity.getProperty(VALUE);
-    this.price = (Long)entity.getProperty(PRICE);
+    Object price = entity.getProperty(PRICE);
+    if (Objects.nonNull(price)) {
+      this.price = Long.valueOf(price.toString());
+    }
   }
-  
+
   /**
    * モデルの内容を指定のエンティティに設定します。
    * @param entity エンティティ
