@@ -190,12 +190,11 @@ export default {
      * バリデーション（おかず、ごはん相関チェック）
      */
     validate (order) {
-      if (order.okazu === 'ouen' && order.gohan !== '') {
-        this.showErrorToast('応援はごはんつきのためごはんをなしにします。')
-        order.gohan = ''
-      }
-      else if (order.okazu === '' && order.gohan === '') {
+      if (order.okazu === '' && order.gohan === '') {
         order.miso = false
+      }
+      else if (order.miso === false) {
+        order.miso = true
       }
     },
     /**
@@ -301,10 +300,16 @@ export default {
     total (order, items) {
       let result = 0
       Object.keys(items).forEach(key => {
+        order[key + 'Label'] = null
+        order[key + 'Price'] = 0
         let item = items[key].find(item => {
           return item.value === order[key]
         })
-        if (item) result += item.price
+        if (item && item.value !== '') {
+          order[key + 'Label'] = item.label
+          order[key + 'Price'] = item.price
+          result += item.price
+        }
       })
       order.price = result
       return order.price
