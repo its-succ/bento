@@ -68,7 +68,11 @@ public class OrderService {
       order.setDate(date);
       order.setUserId(userId);
       order.setGohan("");
+      order.setGohanLabel("");
+      order.setGohanPrice(0L);
       order.setOkazu("");
+      order.setGohanLabel("");
+      order.setGohanPrice(0L);
       order.setMiso(false);
       order.setPrice(0L);
       order.setHoliday(false);
@@ -107,7 +111,11 @@ public class OrderService {
         } else {
           // 注文内容を更新
           result.setOkazu(order.getOkazu());
+          result.setOkazuLabel(order.getOkazuLabel());
+          result.setOkazuPrice(order.getOkazuPrice());
           result.setGohan(order.getGohan());
+          result.setGohanLabel(order.getGohanLabel());
+          result.setGohanPrice(order.getGohanPrice());
           result.setMiso(order.getMiso());
           result.setPrice(order.getPrice());
           orderRepository.update(result);
