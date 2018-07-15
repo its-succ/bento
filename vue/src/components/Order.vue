@@ -23,15 +23,15 @@
                   v-for="order in orders"
                   :key="order.date">
                   <td>{{ order.id | status }}</td>
-                  <td :class="[order.holiday? 'holiday' : '']">{{ order.date }}</td>
-                  <td :class="[order.holiday? 'holiday' : '']">{{ order.date | dayofweek }}</td>
+                  <td :class="[isHoliday(order.date)? 'holiday' : '']">{{ order.date }}</td>
+                  <td :class="[isHoliday(order.date)? 'holiday' : '']">{{ order.date | dayofweek }}</td>
                   <td>
                     <q-select
                       v-model="order.okazu"
                       inverted
                       color="light-blue"
                       separator
-                      :disable="closed || order.holiday"
+                      :disable="closed || isHoliday(order.date)"
                       :options="filteredOkazu(order.date)"
                       @change="validate(order)"
                     />
@@ -42,7 +42,7 @@
                       inverted
                       color="cyan"
                       separator
-                      :disable="closed || order.holiday"
+                      :disable="closed || isHoliday(order.date)"
                       :options="options.gohan"
                       @change="validate(order)"
                     />
@@ -51,7 +51,7 @@
                     <q-toggle
                       v-model="order.miso"
                       color="light-green"
-                      :disable="closed || order.holiday"
+                      :disable="closed || isHoliday(order.date)"
                       :click="validateMiso(order)"
                     />
                   </td>
@@ -118,6 +118,7 @@ export default {
   data () {
     return {
       week: '',
+      holidays: [],
       closed: false,
       orders: [],
       options: {
@@ -168,6 +169,35 @@ export default {
       catch (error) {
         console.error(error)
       }
+    },
+    /**
+     * 休日を取得する
+     */
+    async getHolidays (week) {
+      if (this.user.id === undefined) {
+        // user未設定時はNOP
+        return
+      }
+      try {
+        const response = await this.$http.get(`api/orders/holidays/${week}`)
+        this.holidays = response.data
+      }
+      catch (error) {
+        console.error(error)
+      }
+    },
+    /**
+     * 注文日が休日かどうか設定する
+     */
+    isHoliday (date) {
+      if (this.holidays == null || this.holidays.length === 0) {
+        // 休日なし
+        return false
+      }
+
+      return this.holidays.some(function (holiday) {
+        return holiday === date
+      })
     },
     /**
      * おかずのリストを曜日でフィルタリングする
@@ -269,6 +299,7 @@ export default {
 
     // データ取得
     this.getOrders(this.week)
+    this.getHolidays(this.week)
     this.getMasters()
   },
   computed: {

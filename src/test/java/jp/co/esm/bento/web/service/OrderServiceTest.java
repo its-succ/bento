@@ -34,7 +34,7 @@ public class OrderServiceTest {
 
   @MockBean
   private OrderRepository repository;
-  
+
   @Before
   public void setUp() throws Exception {
   }
@@ -47,13 +47,13 @@ public class OrderServiceTest {
   public void testGetOrders_データが1件も存在しない場合すべてデフォルトであること() {
     doReturn(Collections.emptyList()).when(repository)
       .listByUserIdAndWeek(anyString(), anyObject());
-    
+
     String userId = "hoge@esm.co.jp";
     LocalDate week = LocalDate.of(2018, 3, 5);
     List<Order> actual = serivice.getOrders(userId, week);
-    
+
     assertThat(actual, is(notNullValue()));
-    
+
     IntStream.range(0, 5).forEach(i -> {
       assertThat(actual.get(i).getDate(), is(week.plusDays(i)));
       assertThat(actual.get(i).getUserId(), is("hoge@esm.co.jp"));
@@ -61,7 +61,6 @@ public class OrderServiceTest {
       assertThat(actual.get(i).getOkazu(), is(""));
       assertThat(actual.get(i).getMiso(), is(false));
       assertThat(actual.get(i).getPrice(), is(new Long(0)));
-      assertThat(actual.get(i).getHoliday(), is(false));
     });
   }
 
@@ -74,11 +73,11 @@ public class OrderServiceTest {
     List<Order> demoData = createData(new int[] {1,3,4}, userId);
     doReturn(demoData).when(repository)
       .listByUserIdAndWeek(anyString(), anyObject());
-    
+
     List<Order> actual = serivice.getOrders(userId, week);
-    
+
     assertThat(actual, is(notNullValue()));
-    
+
     // 火、金はデフォルトの値であること
     IntStream.of(1,4).forEach(i -> {
       assertThat(actual.get(i).getDate(), is(week.plusDays(i)));
@@ -87,9 +86,8 @@ public class OrderServiceTest {
       assertThat(actual.get(i).getOkazu(), is(""));
       assertThat(actual.get(i).getMiso(), is(false));
       assertThat(actual.get(i).getPrice(), is(new Long(0)));
-      assertThat(actual.get(i).getHoliday(), is(false));
     });
-    
+
     // 月、水、木はダミーデータであること
     assertThat(actual.get(0).getDate(), is(demoData.get(0).getDate()));
     assertThat(actual.get(0).getUserId(), is(demoData.get(0).getUserId()));
@@ -97,14 +95,14 @@ public class OrderServiceTest {
     assertThat(actual.get(0).getOkazu(), is(demoData.get(0).getOkazu()));
     assertThat(actual.get(0).getMiso(), is(demoData.get(0).getMiso()));
     assertThat(actual.get(0).getPrice(), is(demoData.get(0).getPrice()));
-    
+
     assertThat(actual.get(2).getDate(), is(demoData.get(1).getDate()));
     assertThat(actual.get(2).getUserId(), is(demoData.get(1).getUserId()));
     assertThat(actual.get(2).getGohan(), is(demoData.get(1).getGohan()));
     assertThat(actual.get(2).getOkazu(), is(demoData.get(1).getOkazu()));
     assertThat(actual.get(2).getMiso(), is(demoData.get(1).getMiso()));
     assertThat(actual.get(2).getPrice(), is(demoData.get(1).getPrice()));
-    
+
     assertThat(actual.get(3).getDate(), is(demoData.get(2).getDate()));
     assertThat(actual.get(3).getUserId(), is(demoData.get(2).getUserId()));
     assertThat(actual.get(3).getGohan(), is(demoData.get(2).getGohan()));
@@ -112,7 +110,7 @@ public class OrderServiceTest {
     assertThat(actual.get(3).getMiso(), is(demoData.get(2).getMiso()));
     assertThat(actual.get(3).getPrice(), is(demoData.get(2).getPrice()));
   }
-  
+
   /**
    * 指定の曜日のOrderだけ作成します。
    * @param dayofweek 曜日
@@ -130,10 +128,9 @@ public class OrderServiceTest {
       order.setMiso(true);
       order.setPrice(new Long(400+i));
       order.setUserId(userId);
-      order.setHoliday(false);
       results.add(order);
     }
     return results;
   }
- 
+
 }
