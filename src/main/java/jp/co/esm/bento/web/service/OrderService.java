@@ -75,7 +75,6 @@ public class OrderService {
       order.setGohanPrice(0L);
       order.setMiso(false);
       order.setPrice(0L);
-      order.setHoliday(false);
       results.add(order);
     }
     // 日付でソート

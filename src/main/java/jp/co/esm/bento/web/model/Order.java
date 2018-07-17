@@ -49,9 +49,6 @@ public class Order {
   // 値段
   private Long price;
 
-  // 祝日かどうか
-  private Boolean holiday;
-
   // プロパティ名：ID
   public static final String ID = "id";
   // プロパティ名：date
@@ -74,8 +71,6 @@ public class Order {
   public static final String USER_ID = "userId";
   // プロパティ名：price
   public static final String PRICE = "price";
-  // プロパティ名：holiday
-  public static final String HOLIDAY = "holiday";
 
   /**
    * 指定のエンティティの内容をモデルに設定します。
@@ -97,7 +92,6 @@ public class Order {
     if (Objects.nonNull(p)) {
       this.price = Long.valueOf(p.toString());
     }
-    this.holiday = Boolean.FALSE;
   }
 
   /**

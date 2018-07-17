@@ -41,15 +41,26 @@ public class OrderController {
    * @return 注文内容
    */
   @GetMapping("/{week}")
-  public List<Order> getOrders(@PathVariable LocalDate week, @AuthenticationPrincipal GoogleUser user, HttpServletRequest request) {
+  public List<Order> getOrders(@PathVariable LocalDate week, @AuthenticationPrincipal GoogleUser user) {
     log.info("getOrders");
     log.info("week: {}", week);
     log.info("user: {}", user);
     // 指定の注文情報を取得
     List<Order> orders = orderService.getOrders(user.getUserId(), week);
-    // 休日情報を設定
-    setHoliday(orders, request.getRequestURL().toString());
     return orders;
+  }
+
+  /**
+   * 指定の日付から5日間の休日を休日カレンダーより取得します。
+   *
+   * @param week 基準日
+   * @param request HTTPリクレスト
+   * @return 休日（該当なしの場合は空）
+   */
+  @GetMapping("/holidays/{week}")
+  public List<LocalDate> getHolidays(@PathVariable LocalDate week, HttpServletRequest request) {
+    LocalDate toDate = week.plusDays(4);
+    return calendarService.getHolidays(week, toDate, request.getRequestURL().toString());
   }
 
   /**
@@ -66,28 +77,6 @@ public class OrderController {
     orderService.createOrUpdateOrders(orders, user.getUserId(), week);
     // 登録結果を返す
     List<Order> results = orderService.getOrders(user.getUserId(), week);
-    // 休日情報を設定
-    setHoliday(results, request.getRequestURL().toString());
     return results;
-  }
-
-  /**
-   * 指定の注文内容の注文日に対して休日かどうかを設定します。
-   *
-   * @param orders 注文内容
-   * @param requestUrl リクエストURL(認証で使用）
-   */
-  private void setHoliday(List<Order> orders, String requestUrl) {
-    if (orders.isEmpty()) {
-      return;
-    }
-
-    // Googleの祝日カレンダーより指定範囲の祝日を取得
-    List<LocalDate> holidays = calendarService.getHolidays(orders.get(0).getDate(), orders.get(4).getDate(), requestUrl);
-    if (holidays == null || holidays.isEmpty()) {
-      return;
-    }
-    // 注文日に祝日があれば設定
-    orders.stream().filter(o -> holidays.contains(o.getDate())).forEach(o -> o.setHoliday(true));
   }
 }
