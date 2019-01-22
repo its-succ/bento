@@ -38,23 +38,23 @@ export default new Vuex.Store({
         await load();
       }
       commit("setInitAuth");
-      dispatch("updateIsSignedIn");
+      dispatch("updateSignInState");
     },
     async signIn({ state, dispatch }) {
       if (!state.isAuthInit) {
         await dispatch("initAuth");
       }
       await authInstance().signIn();
-      dispatch("updateIsSignedIn");
+      dispatch("updateSignInState");
     },
     async signOut({ state, dispatch }) {
       if (!state.isAuthInit) {
         await dispatch("initAuth");
       }
       await authInstance().signOut();
-      dispatch("updateIsSignedIn");
+      dispatch("updateSignInState");
     },
-    updateIsSignedIn({ commit }) {
+    updateSignInState({ commit }) {
       commit("setIsSignedIn", authInstance().isSignedIn.get());
     }
   }
