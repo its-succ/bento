@@ -1,29 +1,23 @@
-.gradle
-/bin/
-/build/
-!gradle/wrapper/gradle-wrapper.jar
+.DS_Store
+node_modules
+/dist
+.firebase/
+.firebaserc
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
+# local env files
+.env.local
+.env.*.local
 
-### IntelliJ IDEA ###
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
 .idea
-*.iws
-*.iml
-*.ipr
-/out
-
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
-
-.vscode/
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
