@@ -1,42 +1,49 @@
 # bento
-福井本社側のお弁当注文するシステムです。
 
-## 事前条件
+## セットアップ
+1. グローバルに`firebase-tools`をインストールします。
+    ```sh
+    yarn global add firebase-tools
+    ```
+1. `firebase-tools`でログインします。
+    ```sh
+    firebase login
+    ```
+1. プロジェクトを設定します。
+    ```sh
+    firebase use --add
+    ```
 
-- [Cloud SDK](https://cloud.google.com/sdk/?hl=ja)
-- [Java8](http://www.oracle.com/technetwork/java/javase/overview/index.html)
-- Google Cloud SDK Java Extensions
-
-  ```sh
-  gcloud components install app-engine-java`
-  ```
-  を実行する。
-
-## バックエンド
-
-- Spring Boot
-
-## フロントエンド
-
-- Vue.js
-  - `<script src="https://unpkg.com/vue"></script>`
-
-フロント側の実行
+## 開発
+### 依存モジュールをインストールする
 ```sh
-cd vue
-npm i
-npm run dev-mock
+yarn install
 ```
 
-## ビルド
-
-```sh
-./gradlew build
+### Compiles and hot-reloads for development
+```
+yarn run serve
 ```
 
-## ローカルで実行
-
-```sh
-./gradlew appengineRun
+### Compiles and minifies for production
 ```
-を実行して http://localhost:8080/ をブラウザで開く。
+yarn run build
+```
+
+### Run your tests
+```
+yarn run test
+```
+
+### Lints and fixes files
+```
+yarn run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## デプロイ
+```sh
+firebase deploy
+```
