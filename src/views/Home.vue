@@ -9,6 +9,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import SignIn from "@/components/SignIn.vue";
 import firebase from "firebase";
+import { format, startOfWeek, endOfWeek } from 'date-fns';
 
 export default {
   name: "home",
@@ -16,18 +17,29 @@ export default {
     SignIn
   },
   async created() {
-    const db = firebase.firestore();
-    const users = db.collection("users");
-    console.log(users);
+    const now = new Date();
+    const edge = this.edgeOfWeek(now);
+    const startDate = this.formatDate(edge.start);
+    const endDate = this.formatDate(edge.end);
+    console.log(startDate, endDate);
 
     const uid = firebase.auth().currentUser.uid;
 
-    const userOrders = users.doc(uid);
-    console.log(userOrders);
-    console.log(userOrders.get());
-    const orders = userOrders.collection('orders');
-    const q = await orders.where("date", "==", "20190607").get();
-    q.forEach(d => console.log(d.data()));
+    const db = firebase.firestore();
+    const orders = db.collection("users").doc(uid).collection("orders");
+    const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
+    const results = await query.get();
+    results.forEach(d => console.log(d.data()));
+  },
+  methods: {
+    edgeOfWeek(date) {
+      const start = startOfWeek(date);
+      const end = endOfWeek(date);
+      return { start, end };
+    },
+    formatDate(date) {
+      return format(date, "YYYYMMDD");
+    }
   }
 };
 </script>
