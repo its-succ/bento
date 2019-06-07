@@ -1,19 +1,45 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <SignIn />
+    <img alt="Vue logo" src="../assets/logo.png">
+    <SignIn/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
 import SignIn from "@/components/SignIn.vue";
+import firebase from "firebase";
+import { format, startOfWeek, endOfWeek } from 'date-fns';
 
 export default {
   name: "home",
   components: {
     SignIn
+  },
+  async created() {
+    const now = new Date();
+    const edge = this.edgeOfWeek(now);
+    const startDate = this.formatDate(edge.start);
+    const endDate = this.formatDate(edge.end);
+    console.log(startDate, endDate);
+
+    const uid = firebase.auth().currentUser.uid;
+
+    const db = firebase.firestore();
+    const orders = db.collection("users").doc(uid).collection("orders");
+    const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
+    const results = await query.get();
+    results.forEach(d => console.log(d.data()));
+  },
+  methods: {
+    edgeOfWeek(date) {
+      const start = startOfWeek(date);
+      const end = endOfWeek(date);
+      return { start, end };
+    },
+    formatDate(date) {
+      return format(date, "YYYYMMDD");
+    }
   }
 };
 </script>
