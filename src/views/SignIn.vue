@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="signIn">
     <h1>本社弁当注文</h1>
     <sign-in />
   </div>
@@ -9,7 +9,7 @@
 import SignIn from "@/components/SignIn.vue";
 
 export default {
-  name: "home",
+  name: "signIn",
   components: {
     "sign-in" : SignIn
   }
