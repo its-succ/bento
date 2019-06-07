@@ -15,8 +15,6 @@ export default {
   },
   methods: {
     onSignIn() {
-      console.log('aaaaaaaaaa');
-      
       this.$router.push("home");
     }
   }
