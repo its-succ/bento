@@ -5,13 +5,13 @@ import store from "./store";
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA_jueY2J6SGNwOrIk45A5CWLZqNlEOcC8",
-  authDomain: "bento-184202.firebaseapp.com",
-  databaseURL: "https://bento-184202.firebaseio.com",
-  projectId: "bento-184202",
-  storageBucket: "bento-184202.appspot.com",
-  messagingSenderId: "599875423654",
-  appId: "1:599875423654:web:5ec328cb63bd7472"
+  apiKey: "AIzaSyCg0xo8EjH17n1eRC7uQ950jSSPWoxmUb4",
+  authDomain: "bento-243007.firebaseapp.com",
+  databaseURL: "https://bento-243007.firebaseio.com",
+  projectId: "bento-243007",
+  storageBucket: "bento-243007.appspot.com",
+  messagingSenderId: "886494911661",
+  appId: "1:886494911661:web:d384c1aa89e4f41d"
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
