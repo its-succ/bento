@@ -19,9 +19,11 @@ export default {
     signIn: function() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider);
+      this.$emit('sign-in');
     },
     signOut: function() {
       firebase.auth().signOut();
+      this.$emit('sign-out');
     }
   },
   mounted() {
