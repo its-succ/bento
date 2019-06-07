@@ -25,8 +25,11 @@ export default {
     const userOrders = users.doc(uid);
     console.log(userOrders);
     console.log(userOrders.get());
+    const orders = userOrders.collection('orders');
+    const doc = orders.doc('20190607');
+    console.log(doc);
 
-    userOrders
+    doc
       .get()
       .then(function(doc) {
         if (doc.exists) {
