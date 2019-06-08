@@ -32,6 +32,7 @@
         </tr>
       </tbody>
     </table>
+    <button @click="onSubmit">注文</button>
   </div>
 </template>
 
@@ -55,6 +56,7 @@ export default {
     const edge = edgeOfWeek(next);
     this.orders = eachDay(edge.start, edge.end).map(date => {
       return {
+        _date: date,
         date: format(date, "M/D (dd)", { locale: ja }),
         menu: "なし",
         rice: "なし",
@@ -70,6 +72,27 @@ export default {
     const rice = await db.collection("rice").orderBy("index").get();
     this.rice = rice.docs.map(item => item.data());
     this.rice.unshift({ name: "なし" });
+  },
+  methods: {
+    async onSubmit() {
+      const uid = firebase.auth().currentUser.uid;
+      const db = firebase.firestore();
+      const batch = db.batch();
+      this.orders.forEach(order => {
+        const menu = this.menus.find(m => m.name === order.menu).price || 0;
+        const rice = this.rice.find(r => r.name === order.rice).price || 0;
+        const item = {
+          date: formatDate(order._date),
+          menu: order.menu,
+          rice: order.rice,
+          miso: order.miso,
+          price: menu + rice,
+        };
+        const doc = db.doc(`users/${uid}/orders/${formatDate(order._date)}`)
+        batch.set(doc, item);
+      })
+      await batch.commit();
+    }
   }
 }
 </script>
