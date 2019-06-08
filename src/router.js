@@ -3,6 +3,7 @@ import Router from "vue-router";
 import SignIn from "@/views/SignIn.vue";
 import Home from "@/views/Home.vue";
 import Order from "@/views/Order.vue";
+import Admin from "@/views/Admin.vue";
 import firebase from "firebase";
 
 Vue.use(Router);
@@ -25,25 +26,38 @@ const router = new Router({
       path: "/order",
       name: "order",
       component: Order
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: Admin
     }
   ]
 });
 
-router.beforeResolve((to, from, next) => {
+router.beforeResolve(async (to, from, next) => {
   if (to.path === "/") {
     next();
     return;
   }
-  firebase.auth().onAuthStateChanged(async user => {
-    if (user) {
-      const db = firebase.firestore();
-      const doc = db.doc(`users/${user.uid}`);
-      await doc.set({ name: user.displayName });
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    next({ path: "/" });
+    return;
+  }
+
+  const db = firebase.firestore();
+  const admin = await db.doc("settings/admin").get();
+  const isAdmin = admin.data().uids.includes(user.uid);
+  if (isAdmin) {
+    if (to.path === "/admin") {
       next();
-    } else {
-      next({ path: "/" });
+      return;
     }
-  });
+    next({ path: "/admin" });
+    return;
+  }
+  next();
 });
 
 export default router;

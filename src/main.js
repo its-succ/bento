@@ -21,5 +21,16 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created() {
+    firebase.auth().onAuthStateChanged(async user => {
+      if (user) {
+        const db = firebase.firestore();
+        const doc = db.doc(`users/${user.uid}`);
+        await doc.set({ name: user.displayName });
+      } else {
+        this.$router.push({ path: "/" });
+      }
+    });
+  }
 }).$mount("#app");
