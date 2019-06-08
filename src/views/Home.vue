@@ -60,12 +60,12 @@ export default {
         rice: "-",
         miso: "-",
       };
-
+　
       const formatted = formatDate(date);
       const item = results.docs.map(item => item.data()).find(item => item.date === formatted);
       if (item) {
         order.menu = item.menu;
-        order.rice = item.rice ? "あり" : "なし";
+        order.rice = item.rice;
         order.miso = item.miso ? "あり" : "なし";
       }
       return order;

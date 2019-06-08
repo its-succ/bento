@@ -54,17 +54,34 @@ export default {
   async mounted() {
     const next = addWeeks(new Date(), 1);
     const edge = edgeOfWeek(next);
+    const startDate = formatDate(edge.start);
+    const endDate = formatDate(edge.end);
+
+    const db = firebase.firestore();
+    const uid = firebase.auth().currentUser.uid;
+
+    const orders = db.collection("users").doc(uid).collection("orders");
+    const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
+    const results = await query.get();
     this.orders = eachDay(edge.start, edge.end).map(date => {
-      return {
+      const order = {
         _date: date,
         date: format(date, "M/D (dd)", { locale: ja }),
         menu: "なし",
         rice: "なし",
         miso: true,
       };
+
+      const formatted = formatDate(date);
+      const item = results.docs.map(item => item.data()).find(item => item.date === formatted);
+      if (item) {
+        order.menu = item.menu;
+        order.rice = item.rice;
+        order.miso = item.miso;
+      }
+      return order;
     });
 
-    const db = firebase.firestore();
     const menus = await db.collection("menus").orderBy("index").get();
     this.menus = menus.docs.map(item => item.data());
     this.menus.unshift({ name: "なし" });
