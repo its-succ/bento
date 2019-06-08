@@ -55,7 +55,7 @@ export default {
     const results = await query.get();
     this.orders = eachDay(startDate, endDate).map(date => {
       const order = {
-        date: format(date, "M/D(dd)", { locale: ja }),
+        date: format(date, "M/D (dd)", { locale: ja }),
         menu: "-",
         rice: "-",
         miso: "-",

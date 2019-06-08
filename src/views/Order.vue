@@ -15,7 +15,7 @@
           <td>
             <select v-model="order.menu">
               <option v-for="menu in menus" :key="menu.name" :value="menu.name">
-                {{ menu.name }}
+                {{ menu.name }} {{ menu.price ? `(¥${menu.price})` : "" }}
               </option>
             </select>
           </td>
@@ -46,7 +46,7 @@ export default {
     const edge = edgeOfWeek(next);
     this.orders = eachDay(edge.start, edge.end).map(date => {
       return {
-        date: format(date, "M/D(dd)", { locale: ja }),
+        date: format(date, "M/D (dd)", { locale: ja }),
         menu: "",
         rice: "",
         miso: false,
