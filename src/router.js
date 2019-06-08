@@ -34,8 +34,11 @@ router.beforeResolve((to, from, next) => {
     next();
     return;
   }
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged(async user => {
     if (user) {
+      const db = firebase.firestore();
+      const doc = db.doc(`users/${user.uid}`);
+      await doc.set({ name: user.displayName });
       next();
     } else {
       next({ path: "/" });
