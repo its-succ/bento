@@ -19,7 +19,13 @@
               </option>
             </select>
           </td>
-          <td>{{ order.rice }}</td>
+          <td>
+            <select v-model="order.rice">
+              <option v-for="r in rice" :key="r.index" :value="r.name">
+                {{ r.name }} {{ r.price ? `(¥${r.price})` : ""}}
+              </option>
+            </select>
+          </td>
           <td>{{ order.miso }}</td>
         </tr>
       </tbody>
@@ -39,6 +45,7 @@ export default {
     return {
       orders: [],
       menus: [],
+      rice: [],
     }
   },
   async mounted() {
@@ -47,8 +54,8 @@ export default {
     this.orders = eachDay(edge.start, edge.end).map(date => {
       return {
         date: format(date, "M/D (dd)", { locale: ja }),
-        menu: "",
-        rice: "",
+        menu: "なし",
+        rice: "なし",
         miso: false,
       };
     });
@@ -56,7 +63,11 @@ export default {
     const db = firebase.firestore();
     const menus = await db.collection("menus").orderBy("index").get();
     this.menus = menus.docs.map(item => item.data());
-    this.menus.unshift("");
+    this.menus.unshift({ name: "なし" });
+
+    const rice = await db.collection("rice").orderBy("index").get();
+    this.rice = rice.docs.map(item => item.data());
+    this.rice.unshift({ name: "なし" });
   }
 }
 </script>
