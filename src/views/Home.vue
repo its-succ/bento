@@ -14,7 +14,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import SignIn from "@/components/SignIn.vue";
 import firebase from "firebase";
-import { format, startOfWeek, endOfWeek } from 'date-fns';
+import { edgeOfWeek, formatDate} from "@/util";
 
 export default {
   name: "home",
@@ -28,9 +28,9 @@ export default {
   },
   async created() {
     const now = new Date();
-    const edge = this.edgeOfWeek(now);
-    const startDate = this.formatDate(edge.start);
-    const endDate = this.formatDate(edge.end);
+    const edge = edgeOfWeek(now);
+    const startDate = formatDate(edge.start);
+    const endDate = formatDate(edge.end);
 
     const uid = firebase.auth().currentUser.uid;
 
@@ -41,14 +41,6 @@ export default {
     this.orders = results.docs.map(item => item.data());
   },
   methods: {
-    edgeOfWeek(date) {
-      const start = startOfWeek(date);
-      const end = endOfWeek(date);
-      return { start, end };
-    },
-    formatDate(date) {
-      return format(date, "YYYYMMDD");
-    },
     toOrder() {
       this.$router.push("order");
     }
