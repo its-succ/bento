@@ -1,11 +1,24 @@
 <template>
   <div class="home">
     <SignIn/>
-    <ul>
-      <li v-for="order in orders" :key="order.date">
-        {{ order.date }}, {{ order.menu }}
-      </li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>おかず</th>
+          <th>ごはん</th>
+          <th>味噌汁</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="order in orders" :key="order.date">
+          <td>{{ order.date }}</td>
+          <td>{{ order.menu }}</td>
+          <td>{{ order.rice }}</td>
+          <td>{{ order.miso }}</td>
+        </tr>
+      </tbody>
+    </table>
     <button @click="toOrder">注文へ</button>
   </div>
 </template>
@@ -14,7 +27,9 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import SignIn from "@/components/SignIn.vue";
 import firebase from "firebase";
-import { edgeOfWeek, formatDate} from "@/util";
+import { edgeOfWeek, formatDate } from "@/util";
+import { format, eachDay } from 'date-fns';
+import ja from 'date-fns/locale/ja'
 
 export default {
   name: "home",
@@ -38,7 +53,23 @@ export default {
     const orders = db.collection("users").doc(uid).collection("orders");
     const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
     const results = await query.get();
-    this.orders = results.docs.map(item => item.data());
+    this.orders = eachDay(startDate, endDate).map(date => {
+      const order = {
+        date: format(date, "M/D(dd)", { locale: ja }),
+        menu: "-",
+        rice: "-",
+        miso: "-",
+      };
+
+      const formatted = formatDate(date);
+      const item = results.docs.map(item => item.data()).find(item => item.date === formatted);
+      if (item) {
+        order.menu = item.menu;
+        order.rice = item.rice ? "あり" : "なし";
+        order.miso = item.miso ? "あり" : "なし";
+      }
+      return order;
+    })
   },
   methods: {
     toOrder() {
