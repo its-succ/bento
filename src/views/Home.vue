@@ -6,6 +6,7 @@
         {{ order.date }}, {{ order.menu }}
       </li>
     </ul>
+    <button>注文へ</button>
   </div>
 </template>
 
