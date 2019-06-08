@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       orders: [],
-    }
+    };
   },
   async created() {
     const now = new Date();
