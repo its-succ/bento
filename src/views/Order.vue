@@ -12,7 +12,13 @@
       <tbody>
         <tr v-for="order in orders" :key="order.date">
           <td>{{ order.date }}</td>
-          <td>{{ order.menu }}</td>
+          <td>
+            <select v-model="order.menu">
+              <option v-for="menu in menus" :key="menu.name" :value="menu.name">
+                {{ menu.name }}
+              </option>
+            </select>
+          </td>
           <td>{{ order.rice }}</td>
           <td>{{ order.miso }}</td>
         </tr>
@@ -32,6 +38,7 @@ export default {
   data() {
     return {
       orders: [],
+      menus: [],
     }
   },
   async mounted() {
@@ -45,6 +52,10 @@ export default {
         miso: false,
       };
     });
+
+    const db = firebase.firestore();
+    const menus = await db.collection("menus").orderBy("index").get();
+    this.menus = menus.docs.map(item => item.data());
   }
 }
 </script>
