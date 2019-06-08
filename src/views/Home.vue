@@ -2,7 +2,7 @@
   <div class="home">
     <SignIn/>
     <ul>
-      <li v-for="order in orders">
+      <li v-for="order in orders" :key="order.date">
         {{ order.date }}, {{ order.menu }}
       </li>
     </ul>
