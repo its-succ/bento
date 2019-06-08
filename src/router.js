@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import SignIn from "@/views/SignIn.vue";
 import Home from "@/views/Home.vue";
+import Order from "@/views/Order.vue";
 import firebase from "firebase";
 
 Vue.use(Router);
@@ -19,6 +20,11 @@ const router = new Router({
       path: "/home",
       name: "home",
       component: Home
+    },
+    {
+      path: "/order",
+      name: "order",
+      component: Order
     }
   ]
 });

@@ -6,7 +6,7 @@
         {{ order.date }}, {{ order.menu }}
       </li>
     </ul>
-    <button>注文へ</button>
+    <button @click="toOrder">注文へ</button>
   </div>
 </template>
 
@@ -48,6 +48,9 @@ export default {
     },
     formatDate(date) {
       return format(date, "YYYYMMDD");
+    },
+    toOrder() {
+      this.$router.push("order");
     }
   }
 };
