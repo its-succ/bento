@@ -56,6 +56,7 @@ export default {
     const db = firebase.firestore();
     const menus = await db.collection("menus").orderBy("index").get();
     this.menus = menus.docs.map(item => item.data());
+    this.menus.unshift("");
   }
 }
 </script>
