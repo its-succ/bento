@@ -26,7 +26,9 @@
               </option>
             </select>
           </td>
-          <td>{{ order.miso }}</td>
+          <td>
+            <input type="checkbox" v-model="order.miso">
+          </td>
         </tr>
       </tbody>
     </table>
@@ -56,7 +58,7 @@ export default {
         date: format(date, "M/D (dd)", { locale: ja }),
         menu: "なし",
         rice: "なし",
-        miso: false,
+        miso: true,
       };
     });
 
