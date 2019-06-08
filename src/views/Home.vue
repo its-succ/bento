@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
 import SignIn from "@/components/SignIn.vue";
 import firebase from "firebase";
 import { edgeOfWeek, formatDate } from "@/util";
