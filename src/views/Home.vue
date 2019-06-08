@@ -1,7 +1,11 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <SignIn/>
+    <ul>
+      <li v-for="order in orders">
+        {{ order.date }}, {{ order.menu }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -16,12 +20,16 @@ export default {
   components: {
     SignIn
   },
+  data() {
+    return {
+      orders: [],
+    }
+  },
   async created() {
     const now = new Date();
     const edge = this.edgeOfWeek(now);
     const startDate = this.formatDate(edge.start);
     const endDate = this.formatDate(edge.end);
-    console.log(startDate, endDate);
 
     const uid = firebase.auth().currentUser.uid;
 
@@ -29,7 +37,7 @@ export default {
     const orders = db.collection("users").doc(uid).collection("orders");
     const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
     const results = await query.get();
-    results.forEach(d => console.log(d.data()));
+    this.orders = results.docs.map(item => item.data());
   },
   methods: {
     edgeOfWeek(date) {
