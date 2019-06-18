@@ -19,7 +19,7 @@
         </tr>
       </tbody>
     </table>
-    <button @click="toOrder">注文へ</button>
+    <v-btn @click="toOrder" color="info">注文へ</v-btn>
   </div>
 </template>
 
