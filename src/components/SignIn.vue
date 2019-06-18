@@ -1,7 +1,7 @@
 <template>
   <div class="signin">
-    <a v-if="this.isAuth===true" @click="signOut" class="button--grey">signOut</a>
-    <a v-if="this.isAuth===false" @click="signIn" class="button--green">signIn</a>
+    <v-btn v-if="this.isAuth===true" @click="signOut">ログアウト</v-btn>
+    <v-btn v-if="this.isAuth===false" @click="signIn">ログイン</v-btn>
   </div>
 </template>
 
