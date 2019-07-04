@@ -2,8 +2,8 @@
   <div class="admin">
     <sign-in />
     <div>
-      <button @click="prevWeek">前の週</button>
-      <button @click="nextWeek">次の週</button>
+      <v-btn outline round color="indigo" @click="prevWeek">前の週</v-btn>
+      <v-btn outline round color="indigo" @click="nextWeek">次の週</v-btn>
     </div>
     <table>
       <thead>

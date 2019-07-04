@@ -32,7 +32,7 @@
         </tr>
       </tbody>
     </table>
-    <button @click="onSubmit">注文</button>
+    <v-btn @click="onSubmit" color="info">注文</v-btn>
   </div>
 </template>
 
