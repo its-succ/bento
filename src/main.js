@@ -6,6 +6,7 @@ import firebase from "firebase";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 
+const opts = {};
 Vue.use(Vuetify);
 
 const firebaseConfig = {
@@ -25,5 +26,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  vuetify: new Vuetify(opts),
   render: h => h(App)
 }).$mount("#app");

@@ -1,12 +1,12 @@
 <template>
   <v-app id="app">
-    <v-toolbar color="#234390" dark fixed app>
+    <v-app-bar color="#234390" dark fixed app>
       <v-toolbar-title>Bento</v-toolbar-title>
       <v-spacer/>
       <v-toolbar-items>
-        <v-btn flat @click="onSignOut">ログアウト</v-btn>
+        <v-btn text @click="onSignOut">ログアウト</v-btn>
       </v-toolbar-items>
-    </v-toolbar>
+    </v-app-bar>
     <v-content>
       <router-view/>
     </v-content>
