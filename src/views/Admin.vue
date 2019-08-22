@@ -1,30 +1,40 @@
 <template>
   <div class="admin">
     <sign-in />
-    <div>
-      <v-btn outlined rounded color="indigo" @click="prevWeek">前の週</v-btn>
-      <v-btn outlined rounded color="indigo" @click="nextWeek">次の週</v-btn>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>名前</th>
-          <th v-for="date in dates" :key="date">{{ date }}</th>
-          <th>合計</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.name">
-          <td>{{ user.name }}</td>
-          <td v-for="order in user.orders" :key="order.date">
-            {{ order.menu }}<br />
-            {{ order.rice }}<br />
-            {{ order.miso }}<br />
-          </td>
-          <td>{{ user.price }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <v-layout 
+      class="pa-3"
+      column
+    >
+      <v-simple-table fixed-header>
+        <thead>
+          <tr>
+            <th>名前</th>
+            <th v-for="date in dates" :key="date">{{ date }}</th>
+            <th>合計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.name">
+            <td>{{ user.name }}</td>
+            <td v-for="order in user.orders" :key="order.date">
+              {{ order.menu }}<br />
+              {{ order.rice }}<br />
+              {{ order.miso }}<br />
+            </td>
+            <td>{{ user.price }}</td>
+          </tr>
+        </tbody>
+      </v-simple-table>
+      <v-layout 
+        class="pa-3" 
+        justify-space-between
+      >
+        <v-btn outlined rounded color="indigo" @click="prevWeek">前の週</v-btn>
+        <v-btn outlined rounded color="indigo" @click="nextWeek">次の週</v-btn>
+      </v-layout>
+      
+    </v-layout>
+    
   </div>
 </template>
 
@@ -107,18 +117,3 @@ export default {
   }
 };
 </script>
-
-<style>
-th {
-  border: solid 1px #ff6633;
-  background-color: #ff9933;
-  color: #ffffff;
-}
-td {
-  border-left: solid 1px #ff6633;
-  border-bottom: solid 1px #ff6633;
-  border-right: solid 1px #ff6633;
-  background-color: #ffffff;
-  color: #ff6633;
-}
-</style>
