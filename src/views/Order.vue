@@ -22,12 +22,12 @@
           <td>
             <select v-model="order.rice">
               <option v-for="r in rice" :key="r.index" :value="r.name">
-                {{ r.name }} {{ r.price ? `(¥${r.price})` : ""}}
+                {{ r.name }} {{ r.price ? `(¥${r.price})` : "" }}
               </option>
             </select>
           </td>
           <td>
-            <input type="checkbox" v-model="order.miso">
+            <input type="checkbox" v-model="order.miso" />
           </td>
         </tr>
       </tbody>
@@ -39,8 +39,8 @@
 <script>
 import firebase from "firebase";
 import { edgeOfWeek, formatDate } from "@/util";
-import { addWeeks, format, eachDay } from 'date-fns';
-import ja from 'date-fns/locale/ja'
+import { addWeeks, format, eachDay } from "date-fns";
+import ja from "date-fns/locale/ja";
 
 export default {
   name: "order",
@@ -48,8 +48,8 @@ export default {
     return {
       orders: [],
       menus: [],
-      rice: [],
-    }
+      rice: []
+    };
   },
   async mounted() {
     const next = addWeeks(new Date(), 1);
@@ -60,8 +60,13 @@ export default {
     const db = firebase.firestore();
     const uid = firebase.auth().currentUser.uid;
 
-    const orders = db.collection("users").doc(uid).collection("orders");
-    const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
+    const orders = db
+      .collection("users")
+      .doc(uid)
+      .collection("orders");
+    const query = orders
+      .where("date", ">=", startDate)
+      .where("date", "<=", endDate);
     const results = await query.get();
     this.orders = eachDay(edge.start, edge.end).map(date => {
       const order = {
@@ -69,11 +74,13 @@ export default {
         date: format(date, "M/D (dd)", { locale: ja }),
         menu: "なし",
         rice: "なし",
-        miso: true,
+        miso: true
       };
 
       const formatted = formatDate(date);
-      const item = results.docs.map(item => item.data()).find(item => item.date === formatted);
+      const item = results.docs
+        .map(item => item.data())
+        .find(item => item.date === formatted);
       if (item) {
         order.menu = item.menu;
         order.rice = item.rice;
@@ -82,11 +89,17 @@ export default {
       return order;
     });
 
-    const menus = await db.collection("menus").orderBy("index").get();
+    const menus = await db
+      .collection("menus")
+      .orderBy("index")
+      .get();
     this.menus = menus.docs.map(item => item.data());
     this.menus.unshift({ name: "なし" });
 
-    const rice = await db.collection("rice").orderBy("index").get();
+    const rice = await db
+      .collection("rice")
+      .orderBy("index")
+      .get();
     this.rice = rice.docs.map(item => item.data());
     this.rice.unshift({ name: "なし" });
   },
@@ -103,13 +116,13 @@ export default {
           menu: order.menu,
           rice: order.rice,
           miso: order.miso,
-          price: menu + rice,
+          price: menu + rice
         };
-        const doc = db.doc(`users/${uid}/orders/${formatDate(order._date)}`)
+        const doc = db.doc(`users/${uid}/orders/${formatDate(order._date)}`);
         batch.set(doc, item);
-      })
+      });
       await batch.commit();
     }
   }
-}
+};
 </script>

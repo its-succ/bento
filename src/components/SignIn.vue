@@ -1,19 +1,18 @@
 <template>
   <div class="signin">
-    <v-btn v-if="this.isAuth===true" @click="signOut">ログアウト</v-btn>
-    <v-btn v-if="this.isAuth===false" @click="signIn">ログイン</v-btn>
+    <v-btn v-if="this.isAuth === true" @click="signOut">ログアウト</v-btn>
+    <v-btn v-if="this.isAuth === false" @click="signIn">ログイン</v-btn>
   </div>
 </template>
-
 
 <script>
 import firebase from "firebase";
 
 export default {
-  data () {
+  data() {
     return {
-      isAuth: undefined,
-    }
+      isAuth: undefined
+    };
   },
   methods: {
     signIn: function() {
@@ -25,7 +24,7 @@ export default {
     }
   },
   mounted() {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       this.isAuth = !!user;
       this.$emit(this.isAuth ? "sign-in" : "sign-out");
     });

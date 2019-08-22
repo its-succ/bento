@@ -2,13 +2,13 @@
   <v-app id="app">
     <v-app-bar color="#234390" dark fixed app>
       <v-toolbar-title>Bento</v-toolbar-title>
-      <v-spacer/>
+      <v-spacer />
       <v-toolbar-items>
         <v-btn text @click="onSignOut">ログアウト</v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
   </v-app>
 </template>

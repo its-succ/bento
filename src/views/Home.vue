@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <SignIn/>
+    <SignIn />
     <table>
       <thead>
         <tr>
@@ -27,8 +27,8 @@
 import SignIn from "@/components/SignIn.vue";
 import firebase from "firebase";
 import { edgeOfWeek, formatDate } from "@/util";
-import { format, eachDay } from 'date-fns';
-import ja from 'date-fns/locale/ja'
+import { format, eachDay } from "date-fns";
+import ja from "date-fns/locale/ja";
 
 export default {
   name: "home",
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      orders: [],
+      orders: []
     };
   },
   async created() {
@@ -49,26 +49,32 @@ export default {
     const uid = firebase.auth().currentUser.uid;
 
     const db = firebase.firestore();
-    const orders = db.collection("users").doc(uid).collection("orders");
-    const query = orders.where("date", ">=", startDate).where("date", "<=", endDate);
+    const orders = db
+      .collection("users")
+      .doc(uid)
+      .collection("orders");
+    const query = orders
+      .where("date", ">=", startDate)
+      .where("date", "<=", endDate);
     const results = await query.get();
     this.orders = eachDay(startDate, endDate).map(date => {
       const order = {
         date: format(date, "M/D (dd)", { locale: ja }),
         menu: "-",
         rice: "-",
-        miso: "-",
+        miso: "-"
       };
-　
       const formatted = formatDate(date);
-      const item = results.docs.map(item => item.data()).find(item => item.date === formatted);
+      const item = results.docs
+        .map(item => item.data())
+        .find(item => item.date === formatted);
       if (item) {
         order.menu = item.menu;
         order.rice = item.rice;
         order.miso = item.miso ? "あり" : "なし";
       }
       return order;
-    })
+    });
   },
   methods: {
     toOrder() {
