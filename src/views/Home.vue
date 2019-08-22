@@ -1,25 +1,37 @@
 <template>
   <div class="home">
     <SignIn />
-    <table>
-      <thead>
-        <tr>
-          <th>日付</th>
-          <th>おかず</th>
-          <th>ごはん</th>
-          <th>味噌汁</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="order in orders" :key="order.date">
-          <td>{{ order.date }}</td>
-          <td>{{ order.menu }}</td>
-          <td>{{ order.rice }}</td>
-          <td>{{ order.miso }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <v-btn @click="toOrder" color="info">注文へ</v-btn>
+    <v-layout 
+      class="pa-3"
+      column
+    >
+      <v-simple-table fixed-header>
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>おかず</th>
+            <th>ごはん</th>
+            <th>味噌汁</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in orders" :key="order.date">
+            <td>{{ order.date }}</td>
+            <td>{{ order.menu }}</td>
+            <td>{{ order.rice }}</td>
+            <td>{{ order.miso }}</td>
+          </tr>
+        </tbody>
+      </v-simple-table>
+      
+    </v-layout>
+    <v-layout 
+      class="pa-3" 
+      justify-space-between
+    >
+      <v-btn @click="toOrder" color="info">注文へ</v-btn>
+    </v-layout>
+    
   </div>
 </template>
 

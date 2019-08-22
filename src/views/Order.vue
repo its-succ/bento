@@ -1,38 +1,49 @@
 <template>
   <div class="home">
-    <table>
-      <thead>
-        <tr>
-          <th>日付</th>
-          <th>おかず</th>
-          <th>ごはん</th>
-          <th>味噌汁</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="order in orders" :key="order.date">
-          <td>{{ order.date }}</td>
-          <td>
-            <select v-model="order.menu">
-              <option v-for="menu in menus" :key="menu.name" :value="menu.name">
-                {{ menu.name }} {{ menu.price ? `(¥${menu.price})` : "" }}
-              </option>
-            </select>
-          </td>
-          <td>
-            <select v-model="order.rice">
-              <option v-for="r in rice" :key="r.index" :value="r.name">
-                {{ r.name }} {{ r.price ? `(¥${r.price})` : "" }}
-              </option>
-            </select>
-          </td>
-          <td>
-            <input type="checkbox" v-model="order.miso" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <v-btn @click="onSubmit" color="info">注文</v-btn>
+    <v-layout 
+      class="pa-3"
+      column
+    >
+      <v-simple-table fixed-header>
+        <thead>
+          <tr>
+            <th>日付</th>
+            <th>おかず</th>
+            <th>ごはん</th>
+            <th>味噌汁</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in orders" :key="order.date">
+            <td>{{ order.date }}</td>
+            <td>
+              <select v-model="order.menu">
+                <option v-for="menu in menus" :key="menu.name" :value="menu.name">
+                  {{ menu.name }} {{ menu.price ? `(¥${menu.price})` : "" }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <select v-model="order.rice">
+                <option v-for="r in rice" :key="r.index" :value="r.name">
+                  {{ r.name }} {{ r.price ? `(¥${r.price})` : "" }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <input type="checkbox" v-model="order.miso" />
+            </td>
+          </tr>
+        </tbody>
+      </v-simple-table>
+    </v-layout>
+    <v-layout 
+      class="pa-3" 
+      justify-space-between
+    >
+      <v-btn @click="onSubmit" color="info">注文</v-btn>
+    </v-layout>
+    
   </div>
 </template>
 

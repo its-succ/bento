@@ -25,16 +25,14 @@
           </tr>
         </tbody>
       </v-simple-table>
-      <v-layout 
-        class="pa-3" 
-        justify-space-between
-      >
-        <v-btn outlined rounded color="indigo" @click="prevWeek">前の週</v-btn>
-        <v-btn outlined rounded color="indigo" @click="nextWeek">次の週</v-btn>
-      </v-layout>
-      
     </v-layout>
-    
+    <v-layout 
+      class="pa-3" 
+      justify-space-between
+    >
+      <v-btn outlined rounded color="indigo" @click="prevWeek">前の週</v-btn>
+      <v-btn outlined rounded color="indigo" @click="nextWeek">次の週</v-btn>
+    </v-layout>
   </div>
 </template>
 
